@@ -39,9 +39,9 @@ export async function listUserByIdController(request: Request, response: Respons
 export async function updateUserController(request: Request, response: Response): Promise<void> {
     const { id } = request.params
 
-    const { name, cpf, email, password } = request.body
+    const { name, cpf, email, password, skills } = request.body
 
-    const serviceResponse: ServiceResponse = await updateUserService({name, cpf, email, id, password})
+    const serviceResponse: ServiceResponse = await updateUserService({name, cpf, email, id, password, skills})
 
     response.status(serviceResponse.status).json(serviceResponse.response)
 }

@@ -4,7 +4,7 @@ import ErrorHTTP from "../../errors";
 import { ServiceResponse } from "../../interfaces";
 import { IUpdateUser } from "../../interfaces/users";
 
-export default async function updateUserService({name, cpf, email, id, password}: IUpdateUser): Promise<ServiceResponse> {
+export default async function updateUserService({name, cpf, email, id, password, skills}: IUpdateUser): Promise<ServiceResponse> {
 
     const usersRepository = AppDataSource.getRepository(User)
 
@@ -12,7 +12,11 @@ export default async function updateUserService({name, cpf, email, id, password}
 
     if (!user) throw new ErrorHTTP('Usuario não encontrado')
 
-    usersRepository.update(id, {
+    const userSkillsRepository = AppDataSource.getRepository(User) // repositorio de skills
+
+    //await userSkillsRepository.update(user.skills, { ...skills })
+    
+    await usersRepository.update(id, {
         name: name || user.name,
         cpf: cpf || user.cpf,
         email: email || user.email,

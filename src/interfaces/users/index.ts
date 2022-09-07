@@ -11,5 +11,6 @@ export interface IUpdateUser {
     password: string,
     email: string,
     cpf: number,
-    id: string
+    id: string,
+    skills: {}
 }

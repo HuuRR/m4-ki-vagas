@@ -6,11 +6,11 @@ import { instanceToPlain } from "class-transformer"
 
 export default async function createUserService({cpf, email, name, password, skills}: ICreateUser): Promise<ServiceResponse> {
 
-    const usersSkillsRepository = AppDataSource.getRepository(User) // repositorio de skills
+    const userSkillsRepository = AppDataSource.getRepository(User) // repositorio de skills
 
-    const newUserSkills = usersSkillsRepository.create({...skills})
+    const newUserSkills = userSkillsRepository.create({...skills})
 
-    await usersSkillsRepository.save(newUserSkills)
+    await userSkillsRepository.save(newUserSkills)
 
     const usersRepository = AppDataSource.getRepository(User)
 

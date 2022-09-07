@@ -4,8 +4,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from "typeorm";
 import { Exclude } from "class-transformer";
+import { Interviews } from "./iterviews.entity";
 
 @Entity("users")
 export default class User {
@@ -25,7 +27,7 @@ export default class User {
 
   @Column({ nullable: false, unique: true, length: 11 })
   @Exclude()
-  cpf: number;
+  cpf: string;
 
   @Column({ nullable: false, default: true })
   isActive: boolean;
@@ -35,6 +37,11 @@ export default class User {
 
   @UpdateDateColumn()
   updatedAt: string;
+
+  @OneToMany((type) => Interviews, (interviews) => interviews.user, {
+    eager: true,
+  })
+  interviews: Interviews[];
 
   // foregeing key missing
 }

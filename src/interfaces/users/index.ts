@@ -1,16 +1,16 @@
 export interface ICreateUser {
-    name: string,
-    password: string,
-    email: string,
-    cpf: number,
-    skills: {}
+  name: string;
+  password: string;
+  email: string;
+  cpf: string;
+  skills: {};
 }
 
 export interface IUpdateUser {
-    name: string,
-    password: string,
-    email: string,
-    cpf: number,
-    id: string,
-    skills: {}
+  name: string;
+  password: string;
+  email: string;
+  cpf: string;
+  id: string;
+  skills: {};
 }

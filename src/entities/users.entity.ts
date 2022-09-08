@@ -5,9 +5,12 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
+  JoinColumn,
+  OneToOne,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { Interviews } from "./iterviews.entity";
+import { User_skills } from "./user_skills.entity";
 
 @Entity("users")
 export default class User {
@@ -43,5 +46,6 @@ export default class User {
   })
   interviews: Interviews[];
 
-  // foregeing key missing
+  @OneToOne(() => User_skills, {eager: true})@JoinColumn()
+  user_skills_id: User_skills
 }

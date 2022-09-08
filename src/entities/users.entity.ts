@@ -1,36 +1,50 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm"
-import { Exclude } from "class-transformer"
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+} from "typeorm";
+import { Exclude } from "class-transformer";
+import { Interviews } from "./iterviews.entity";
+import { User_skills } from "./user_skills.entity";
 
-
-@Entity('users')
+@Entity("users")
 export default class User {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @Column({ nullable: false })
+  name: string;
 
-    @Column({ nullable: false })
-    name: string
+  @Column({ nullable: false })
+  @Exclude()
+  password: string;
 
-    @Column({ nullable: false })
-    @Exclude()
-    password: string
+  @Column({ nullable: false, unique: true })
+  @Exclude()
+  email: string;
 
-    @Column({ nullable: false, unique: true })
-    @Exclude()
-    email: string
+  @Column({ nullable: false, unique: true, length: 11 })
+  @Exclude()
+  CPF: string;
 
-    @Column({ nullable: false, unique: true })
-    @Exclude()
-    cpf: number
+  @Column({ nullable: false, default: true })
+  isActive: boolean;
 
-    @Column({ nullable: false, default: true })
-    isActive: boolean
+  @CreateDateColumn()
+  createdAt: string;
 
-    @CreateDateColumn()
-    createdAt: string
+  @UpdateDateColumn()
+  updatedAt: string;
 
-    @UpdateDateColumn()
-    updatedAt: string
+  @OneToMany(() => Interviews, (interviews) => interviews.user, { eager: true })
+  interviews: Interviews[];
 
-    // foregeing key missing
+  @OneToOne(() => User_skills, (user_skills) => user_skills.id, {eager: true})
+  @JoinColumn()
+  user_skills: User_skills
 }

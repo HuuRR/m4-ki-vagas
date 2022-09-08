@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import User from "../../entities/users.entity";
-import ErrorHTTP from "../../errors";
+import { AppError } from "../../errors/AppError";
 import { ServiceResponse } from "../../interfaces";
 
 export default async function listUserByIdService(id: string): Promise<ServiceResponse> {
@@ -8,7 +8,7 @@ export default async function listUserByIdService(id: string): Promise<ServiceRe
 
     const user = await usersRepository.findOne({where: {id}})
 
-    if (!user) throw new ErrorHTTP('Usuario não encontrado')
+    if (!user) throw new AppError('Usuario não encontrado')
 
     return {
         status: 200,

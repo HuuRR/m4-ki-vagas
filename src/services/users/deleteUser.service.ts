@@ -16,6 +16,6 @@ export default async function deleteUserService(id: string): Promise<ServiceResp
 
     return {
         status: 200,
-        response: "Usuario deletado com sucesso"
+        response: {message: "Usuario deletado com sucesso"}
     }
 }

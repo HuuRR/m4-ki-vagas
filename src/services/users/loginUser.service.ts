@@ -11,11 +11,12 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
 
     const userRepository = AppDataSource.getRepository(User)
 
+    
     const user = cpf ? await userRepository.findOne({where: {CPF: cpf}}) : await userRepository.findOne({where: {email}})
-
+        
     if (!user) throw new AppError('Senha ou email invalidos')
 
-    if (!user.isActive) throw new ErrorHTTP('Usuário está inativo')
+    if (!user.isActive) throw new AppError('Usuário está inativo')
 
     const passwordMatch = bcrypt.compareSync(password, user.password)
 

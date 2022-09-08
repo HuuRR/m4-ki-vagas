@@ -1,8 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn  } from "typeorm";
+import { Exclude } from "class-transformer"
 
 @Entity("user_skills")
 export class User_skills {
     @PrimaryGeneratedColumn("uuid")
+    @Exclude()
     id: string
 
     @Column({ nullable: true, default: false })

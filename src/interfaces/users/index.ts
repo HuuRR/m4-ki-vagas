@@ -13,3 +13,9 @@ export interface IUpdateUser {
     cpf: number,
     id: string
 }
+
+export interface ILoginUser {
+    password: string,
+    email: string,
+    cpf: number
+}

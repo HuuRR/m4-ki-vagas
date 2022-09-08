@@ -4,6 +4,7 @@ import createUserService from "../services/users/createUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import listUserByIdService from "../services/users/listUserById.service";
 import listUsersService from "../services/users/listUsers.service";
+import loginUserService from "../services/users/loginUser.service";
 import updateUserService from "../services/users/updateUser.service";
 
 export async function createUserController(request: Request, response: Response): Promise<void> {
@@ -42,6 +43,14 @@ export async function updateUserController(request: Request, response: Response)
     const { name, cpf, email, password } = request.body
 
     const serviceResponse: ServiceResponse = await updateUserService({name, cpf, email, id, password})
+
+    response.status(serviceResponse.status).json(serviceResponse.response)
+}
+
+export async function loginUserController(request: Request, response: Response) {
+    const { email, password, cpf } = request.body
+
+    const serviceResponse: ServiceResponse = await loginUserService({password, email, cpf})
 
     response.status(serviceResponse.status).json(serviceResponse.response)
 }

@@ -30,7 +30,7 @@ export default class User {
 
   @Column({ nullable: false, unique: true, length: 11 })
   @Exclude()
-  cpf: string;
+  CPF: string;
 
   @Column({ nullable: false, default: true })
   isActive: boolean;
@@ -41,11 +41,10 @@ export default class User {
   @UpdateDateColumn()
   updatedAt: string;
 
-  @OneToMany((type) => Interviews, (interviews) => interviews.user, {
-    eager: true,
-  })
+  @OneToMany(() => Interviews, (interviews) => interviews.user, { eager: true })
   interviews: Interviews[];
 
-  @OneToOne(() => User_skills, {eager: true})@JoinColumn()
-  user_skills_id: User_skills
+  @OneToOne(() => User_skills, (user_skills) => user_skills.id, {eager: true})
+  @JoinColumn()
+  user_skills: User_skills
 }

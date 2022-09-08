@@ -15,6 +15,8 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
 
     if (!user) throw new ErrorHTTP('Senha ou email invalidos')
 
+    if (!user.isActive) throw new ErrorHTTP('Usuário está inativo')
+
     const passwordMatch = bcrypt.compareSync(password, user.password)
 
     if (!passwordMatch) throw new ErrorHTTP('Senha ou email invalidos')
@@ -23,6 +25,6 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
 
     return {
         status: 200,
-        response: token
+        response: {token, userId: user.id}
     }
 }

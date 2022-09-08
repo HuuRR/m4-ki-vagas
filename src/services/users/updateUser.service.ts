@@ -14,7 +14,7 @@ export default async function updateUserService({name, cpf, email, id, password,
 
     const userSkillsRepository = AppDataSource.getRepository(User) // repositorio de skills
 
-    //await userSkillsRepository.update(user.skills, { ...skills })
+    // await userSkillsRepository.update(user.skills, { ...skills })
     
     await usersRepository.update(id, {
         name: name || user.name,

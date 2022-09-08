@@ -6,6 +6,7 @@ import { mockedInvalidCpfUser, mockedUser, mockedUserLogin } from "../../mocks";
 
 describe("Testando rotas do usuario", () => {
   let connection: DataSource;
+  let userId: string
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -22,7 +23,10 @@ describe("Testando rotas do usuario", () => {
   });
 
   test("POST /users - Deve ser capaz de criar um usuário", async () => {
-    const response = await request(app).post("/users").send(mockedUser);
+    const response = await request(app)
+      .post("/users")
+      .send(mockedUser);
+    userId = response.body.id
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
@@ -47,67 +51,156 @@ describe("Testando rotas do usuario", () => {
   });
 
   test("POST /users - Não deve ser capaz de criar um usuario que já existe", async () => {
-    const response = await request(app).post("/users").send(mockedUser);
+    const response = await request(app)
+      .post("/users")
+      .send(mockedUser);
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message");
   });
 
   test("GET /users - Deve ser capaz de listar todos os usuários", async () => {
-    const loginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserLogin);
-    const response = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+    const response = await request(app).get("/users")
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveLength(1);
-    expect(response.body).toHaveProperty("map");
+    expect(response.body[0]).not.toHaveProperty("password");
+    expect(response.body[0]).not.toHaveProperty("cpf");
+    expect(response.body[0]).not.toHaveProperty("email");
   });
 
-  test("GET /users/:id - Deve ser capaz de listar um usuário pelo id ", async () => {});
+  test("GET /users/:id - Deve ser capaz de listar um usuário pelo id ", async () => {
+    const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
 
-  test("GET /users/:id - Não deve ser capaz de listar um usuário pelo id sem autorização ", async () => {});
-
-  test("GET /users/:id - Não deve ser capaz de listar um usuário pelo id incorreto ", async () => {});
-
-  test("PATCH /users/:id - Deve ser capaz de atualizar propriedade do usuário", async () => {});
-
-  test("PATCH /users/:id - Não deve ser capaz de atualizar propriedade do usuário sem token", async () => {});
-
-  test("PATCH /users/:id - Não deve ser capaz de atualizar propriedade do usuário com id invalido", async () => {});
-
-  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário sem token", async () => {
-    const loginResponse = await request(app).post("/login").send(mockedUser);
-    const userToDelete = await request(app)
-      .get("/users")
+    const response = await request(app)
+      .get(`/users/${userId}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-    const response = await request(app).delete(
-      `/users/${userToDelete.body[0].id}`
-    );
-
-    expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("password");
+    expect(response.body).toHaveProperty("cpf");
+    expect(response.body).toHaveProperty("email");
+    expect(response.body).toHaveProperty("name");
+    expect(response.body).toHaveProperty("id");
   });
 
-  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário com id invalido", async () => {});
+  test("GET /users/:id - Não deve ser capaz de listar um usuário pelo id sem autorização ", async () => {
+    const response = await request(app).get(`/users/${userId}`)
+
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("GET /users/:id - Não deve ser capaz de listar um usuário pelo id incorreto ", async () => {
+    const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
+
+    const response = await request(app)
+      .get("/users/d6as5d6as5-ascas61-asc6sa1c5")
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - Deve ser capaz de atualizar propriedade do usuário", async () => {
+    const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
+
+    const response = await request(app)
+      .patch(`/users/${userId}`)
+      .send({
+        name: "Usuario editado"
+      })
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+      expect(response.status).toBe(200)
+      expect(response.body).toHaveProperty("password");
+      expect(response.body).toHaveProperty("cpf");
+      expect(response.body).toHaveProperty("email");
+      expect(response.body).toHaveProperty("name");
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.name).toEqual("Usuário editado")
+  });
+
+  test("PATCH /users/:id - Não deve ser capaz de atualizar propriedade do usuário sem token", async () => {
+    const response = await request(app)
+      .patch(`/users/${userId}`)
+      .send({
+        name: "Usuario editado"
+      });
+
+      expect(response.status).toBe(200)
+      expect(response.body).toHaveProperty("password");
+      expect(response.body).toHaveProperty("cpf");
+      expect(response.body).toHaveProperty("email");
+      expect(response.body).toHaveProperty("name");
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.name).toEqual("Usuário editado")
+  });
+
+  test("PATCH /users/:id - Não deve ser capaz de atualizar propriedade do usuário com id invalido", async () => {
+    const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
+
+    const response = await request(app)
+      .patch("/users/va6s51v-afwq19v-vq8v41wq")
+      .send({
+        name: "Usuario editado"
+      })
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+      expect(response.status).toBe(200)
+      expect(response.body).toHaveProperty("password");
+      expect(response.body).toHaveProperty("cpf");
+      expect(response.body).toHaveProperty("email");
+      expect(response.body).toHaveProperty("name");
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.name).toEqual("Usuário editado")
+  });
+
+  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário sem token", async () => {
+    const response = await request(app).delete(`/users/${userId}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário com id invalido", async () => {
+    await request(app).post("/users").send(mockedUser);
+
+    const loginResponse = await request(app)
+      .post("/users/login")
+      .send(mockedUserLogin);
+
+    const response = await request(app)
+      .delete("/users/aa65a1cas-a6v5a1sv6-vas6vas1")
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
 
   test("DELETE /users/:id - Deve ser capaz de deletar o usuário", async () => {
     await request(app).post("/users").send(mockedUser);
 
     const loginResponse = await request(app)
-      .post("/login")
+      .post("/users/login")
       .send(mockedUserLogin);
 
     const response = await request(app)
-      .delete(`/users/${loginResponse.body[0].id}`)
+      .delete(`/users/${userId}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     expect(response.status).toBe(204);
     expect(response.body).toHaveProperty("message");
   });
 
-  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário que já foi deletado", async () => {});
+  test("DELETE /users/:id - Não deve ser capaz de deletar um usuário que já foi deletado", async () => {
+    await request(app).post("/users").send(mockedUser);
+
+    const loginResponse = await request(app)
+      .post("/users/login")
+      .send(mockedUserLogin);
+
+    expect(loginResponse.status).toBe(400);
+    expect(loginResponse.body).toHaveProperty("message");
+  });
 });

@@ -1,5 +1,4 @@
-import { ILogin } from "../../interfaces/login";
-import { ICreateUser } from "../../interfaces/users";
+import { ICreateUser, ILoginUser } from "../../interfaces/users";
 
 export const mockedUser: ICreateUser = {
   cpf: 12345678900,
@@ -25,8 +24,8 @@ export const mockedInvalidCpfUser: ICreateUser = {
   },
 };
 
-export const mockedUserLogin: ILogin = {
+export const mockedUserLogin: ILoginUser = {
   email: "email@mail.com",
   password: "1234",
-  isUser: true,
+  cpf: 12345678900
 };

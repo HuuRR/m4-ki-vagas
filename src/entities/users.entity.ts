@@ -19,7 +19,7 @@ export default class User {
     @Exclude()
     email: string
 
-    @Column({ nullable: false, unique: true, length: 11 })
+    @Column({ nullable: false, unique: true })
     @Exclude()
     cpf: number
 

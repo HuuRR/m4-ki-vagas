@@ -5,14 +5,15 @@ import { loginUserController,
         listUserByIdController, 
         listUsersController, 
         updateUserController } from '../controllers/users.controllers'
+import verifyAuthToken from '../middlewares/verifyAuthToken.middleware'
 
 const routes = Router()
 
-routes.post("", createUserController) // não completo falta as competencias
+routes.post("", createUserController)
 routes.get("", listUsersController)
-routes.get("/:id", listUserByIdController)
-routes.delete("/:id", deleteUserController)
-routes.patch("/:id", updateUserController)
+routes.get("/:id", verifyAuthToken, listUserByIdController)
+routes.delete("/:id", verifyAuthToken, deleteUserController)
+routes.patch("/:id", verifyAuthToken, updateUserController)
 routes.post("/login", loginUserController)
 
 export default routes

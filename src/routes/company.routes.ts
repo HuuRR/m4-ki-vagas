@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { createCompanyControllers, deleteCompanyControllers, retrieveCompanyControllers, updateCompanyControllers } from "../controllers/company.controllers";
+import { createCompanyControllers, 
+        deleteCompanyControllers, 
+        retrieveCompanyControllers, 
+        updateCompanyControllers } from "../controllers/company.controllers";
 
-const companyRautes = Router()
+const companyRoutes = Router()
 
-companyRautes.post('', createCompanyControllers)
-companyRautes.get('/:id', retrieveCompanyControllers)
-companyRautes.patch('/:id', updateCompanyControllers)
-companyRautes.delete('/:id', deleteCompanyControllers)
+companyRoutes.post('', createCompanyControllers)
+companyRoutes.get('/:id', retrieveCompanyControllers)
+companyRoutes.patch('/:id', updateCompanyControllers)
+companyRoutes.delete('/:id', deleteCompanyControllers)
 
-export default companyRautes
+export default companyRoutes

@@ -5,24 +5,24 @@ export class User_skills {
     @PrimaryGeneratedColumn("uuid")
     id: string
 
-    @Column()
+    @Column({ nullable: true, default: false })
     excel: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     javascript: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     react: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     css: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     html: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     express: boolean
 
-    @Column()
+    @Column({ nullable: true, default: false })
     docker: boolean
 }

@@ -3,10 +3,11 @@ import User from "../../entities/users.entity";
 import { ServiceResponse } from "../../interfaces";
 import { ICreateUser } from "../../interfaces/users";
 import { instanceToPlain } from "class-transformer"
+import { User_skills } from "../../entities/user_skills.entity";
 
 export default async function createUserService({cpf, email, name, password, skills}: ICreateUser): Promise<ServiceResponse> {
 
-    const userSkillsRepository = AppDataSource.getRepository(User) // repositorio de skills
+    const userSkillsRepository = AppDataSource.getRepository(User_skills)
 
     const newUserSkills = userSkillsRepository.create({...skills})
 
@@ -14,7 +15,7 @@ export default async function createUserService({cpf, email, name, password, ski
 
     const usersRepository = AppDataSource.getRepository(User)
 
-    const newUser = usersRepository.create({ cpf, email, name, password, }) // passar id da skill
+    const newUser = usersRepository.create({ CPF: cpf, email, name, password, user_skills: newUserSkills})
 
     await usersRepository.save(newUser)
 

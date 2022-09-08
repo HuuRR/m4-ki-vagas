@@ -1,5 +1,10 @@
 import { Router } from 'express'
-import { createUserController, deleteUserController, listUserByIdController, listUsersController, updateUserController } from '../controllers/users.controllers'
+import { loginUserController, 
+        createUserController, 
+        deleteUserController, 
+        listUserByIdController, 
+        listUsersController, 
+        updateUserController } from '../controllers/users.controllers'
 
 const routes = Router()
 
@@ -8,5 +13,6 @@ routes.get("", listUsersController)
 routes.get("/:id", listUserByIdController)
 routes.delete("/:id", deleteUserController)
 routes.patch("/:id", updateUserController)
+routes.post("/login", loginUserController)
 
 export default routes

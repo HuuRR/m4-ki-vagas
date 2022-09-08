@@ -11,6 +11,11 @@ export interface IUpdateUser {
     password: string,
     email: string,
     cpf: number,
-    id: string,
-    skills: {}
+    id: string
+}
+
+export interface ILoginUser {
+    password: string,
+    email: string,
+    cpf: number
 }

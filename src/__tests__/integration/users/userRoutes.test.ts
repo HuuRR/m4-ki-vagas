@@ -98,7 +98,7 @@ describe("Testando rotas do usuario", () => {
       .get("/users/d6as5d6as5-ascas61-asc6sa1c5")
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-    expect(response.status).toBe(401)
+    expect(response.status).toBe(404)
     expect(response.body).toHaveProperty("message");
   });
 

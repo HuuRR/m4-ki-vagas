@@ -16,6 +16,6 @@ export default async function deleteVacancyService(
 
   return {
     status: 200,
-    response: "Vacancy deleted with success",
+    response: {message: "Vacancy deleted with success"}
   };
 }

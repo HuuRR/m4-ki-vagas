@@ -11,7 +11,7 @@ const vancancyRoutes = Router();
 vancancyRoutes.post("", companyAuthMiddleware, createVacancyController);
 vancancyRoutes.get("", listVacanciesController);
 vancancyRoutes.get("/:id", listVacancyByIdController);
-vancancyRoutes.patch("/:id", updateVacancyController);
-vancancyRoutes.delete("/:id", deleteVacancyController);
+vancancyRoutes.patch("/:id", companyAuthMiddleware, updateVacancyController);
+vancancyRoutes.delete("/:id", companyAuthMiddleware, deleteVacancyController);
 
 export default vancancyRoutes;

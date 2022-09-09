@@ -1,21 +1,15 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
-import { Interviews } from "../../entities/iterviews.entity";
+import User from "../../entities/users.entity";
 
-const listInterviewByUserService = async (userId: string) => {
-  const interviewRepository = AppDataSource.getRepository(Interviews);
+const listInterviewByUserService = async (id: string) => {
+  const usersRepository = AppDataSource.getRepository(User);
 
-  const iterviewsList = await interviewRepository.find();
+  const user = await usersRepository.findOne({ where: { id } });
 
-  const iterviews = iterviewsList.filter(
-    (iterview) => iterview.user.id === userId
-  );
+  if (!user) throw new AppError("Usuario não encontrado");
 
-  if (iterviews.length === 0) {
-    throw new AppError("User not found", 404);
-  }
-
-  return iterviews;
+  return user.interviews;
 };
 
 export default listInterviewByUserService;

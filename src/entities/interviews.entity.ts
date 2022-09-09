@@ -5,6 +5,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
+
+import { Vacancies } from "./vacancies.entity";
 import User from "./users.entity";
 
 @Entity()
@@ -28,7 +30,7 @@ export class Interviews {
   @JoinColumn()
   user: User;
 
-  //  @ManyToOne((type=>)Vancancies,(vancancies)=>vancancies.interviews)
-  //   @JoinColumn()
-  //   vancancy:Vancancies
+  @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview)
+  @JoinColumn()
+  vancancy: Vacancies;
 }

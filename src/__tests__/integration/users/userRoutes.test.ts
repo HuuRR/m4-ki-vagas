@@ -26,15 +26,14 @@ describe("Testando rotas do usuario", () => {
     const response = await request(app)
       .post("/users")
       .send(mockedUser);
-    userId = response.body.id
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("user_skills");
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
     expect(response.body).not.toHaveProperty("email");
+    expect(response.body).not.toHaveProperty("id");
     expect(response.body).not.toHaveProperty("cpf");
     expect(response.body).not.toHaveProperty("password");
     expect(response.body.name).toEqual("Usuario Criado");
@@ -70,6 +69,8 @@ describe("Testando rotas do usuario", () => {
 
   test("GET /users/:id - Deve ser capaz de listar um usuário pelo id ", async () => {
     const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
+
+    userId = loginResponse.body.userId
 
     const response = await request(app)
       .get(`/users/${userId}`)

@@ -4,9 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne,
 } from "typeorm";
+
 import { Vacancies } from "./vacancies.entity";
+import User from "./users.entity";
 
 @Entity()
 export class Interviews {
@@ -22,15 +23,12 @@ export class Interviews {
   @Column({ default: false })
   isOver: boolean;
 
-  //   @OneToOne((type)=>Feedbacks,{
-  //     eager:true
-  //   })
-  //   @JoinColumn()
-  //   feedback:Feedbacks
+  @Column({ default: null })
+  feedback: string;
 
-  //   @ManyToOne((type=>)Users,(users)=>users.interviews)
-  //   @JoinColumn()
-  //   user:Users
+  @ManyToOne((type) => User, (user) => user.interviews)
+  @JoinColumn()
+  user: User;
 
   @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview)
   @JoinColumn()

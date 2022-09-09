@@ -18,9 +18,3 @@ app.use("/vacancies", vacancyRoutes)
 app.use(handleErrorMiddleware);
 
 export default app;
-
-app.use("/users", userRoutes);
-app.use("/login", loginRoutes);
-app.use("/vacancies", vancancyRoutes);
-
-app.use(errorHandlerMiddleware);

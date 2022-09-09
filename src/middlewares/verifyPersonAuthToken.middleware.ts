@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { AppError } from "../errors/AppError";
 
-export default function verifyAuthToken(request: Request, _response: Response, next: NextFunction) {
+export default function verifyPersonAuthToken(request: Request, _response: Response, next: NextFunction) {
     const token = fixBearerToken(request.headers.authorization)
 
     if (!token) throw new AppError("Token de autorização não encontrado.", 401)
 
-    jwt.verify(token, process.env.SECRET_KEY as string, (error, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY_PERSON as string, (error, decoded) => {
         if (error) throw new AppError("Token invalido", 400)
         
         request.headers.authorization = JSON.stringify({token, decoded})

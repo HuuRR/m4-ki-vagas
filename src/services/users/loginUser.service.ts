@@ -10,7 +10,6 @@ import { AppError } from "../../errors/AppError"
 export default async function loginUserService({password, email, cpf}: ILoginUser): Promise<ServiceResponse> {
 
     const userRepository = AppDataSource.getRepository(User)
-
     
     const user = cpf ? await userRepository.findOne({where: {CPF: cpf}}) : await userRepository.findOne({where: {email}})
         
@@ -22,7 +21,7 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
 
     if (!passwordMatch) throw new AppError('Senha ou email invalidos')
 
-    const token = jwt.sign({ id: user.id, email: user.email, isPerson: true }, process.env.SECRET_KEY as string, {expiresIn: '24h'})
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY_PERSON as string, {expiresIn: '24h'})
 
     return {
         status: 200,

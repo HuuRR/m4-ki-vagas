@@ -9,7 +9,6 @@ const createIterviewService = async ({
   hour,
   date,
   userId,
-  vacancyId,
 }: IInterviewRequest) => {
   const interviewRepository = AppDataSource.getRepository(Interviews);
   const usersRepository = AppDataSource.getRepository(User);

@@ -4,7 +4,7 @@ import { Interviews } from "../../entities/iterviews.entity";
 import { IInterview } from "../../interfaces/interviews";
 
 const editIterviewService = async ({
-  interviewId,
+  id,
   hour,
   date,
   isOver,
@@ -14,7 +14,7 @@ const editIterviewService = async ({
 
   const interview = await interviewRepository.findOne({
     where: {
-      id: interviewId,
+      id: id,
     },
   });
 
@@ -33,7 +33,7 @@ const editIterviewService = async ({
     throw new AppError("Invalid hour");
   }
 
-  await interviewRepository.update(interview, {
+  await interviewRepository.update(interview.id, {
     date: date ? date : interview.date,
     hour: hour ? hour : interview.hour,
     isOver: isOver ? isOver : interview.isOver,
@@ -41,7 +41,7 @@ const editIterviewService = async ({
   });
 
   const updatedInterview = await interviewRepository.findOneBy({
-    id: interviewId,
+    id: id,
   });
 
   return updatedInterview;

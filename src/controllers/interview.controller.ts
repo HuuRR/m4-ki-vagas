@@ -9,9 +9,9 @@ export const createInterviewController = async (
   req: Request,
   res: Response
 ) => {
-  const { hour, date, userId, vacancyId } = req.body;
+  const { hour, date, userId } = req.body;
 
-  const newIterview = createIterviewService({ hour, date, userId, vacancyId });
+  const newIterview = await createIterviewService({ hour, date, userId });
 
   return res.status(201).json(newIterview);
 };
@@ -20,9 +20,9 @@ export const listInterviewByUserController = async (
   req: Request,
   res: Response
 ) => {
-  const { userId } = req.params;
+  const { id } = req.params;
 
-  const listInterviews = listInterviewByUserService(userId);
+  const listInterviews = await listInterviewByUserService(id);
   return res.status(200).json(listInterviews);
 };
 
@@ -30,18 +30,18 @@ export const listIterviewByVacancyController = async (
   req: Request,
   res: Response
 ) => {
-  const { vacancyId } = req.params;
+  const { id } = req.params;
 
-  const listInterviews = listInterviewByVacancyService(vacancyId);
+  const listInterviews = listInterviewByVacancyService(id);
   return res.status(200).json(listInterviews);
 };
 
 export const editIterviewController = async (req: Request, res: Response) => {
-  const { interviewId } = req.params;
+  const { id } = req.params;
   const { hour, date, isOver, feedback } = req.body;
 
-  const interview = editIterviewService({
-    interviewId,
+  const interview = await editIterviewService({
+    id,
     hour,
     date,
     isOver,
@@ -51,9 +51,9 @@ export const editIterviewController = async (req: Request, res: Response) => {
 };
 
 export const deleteIterviewController = async (req: Request, res: Response) => {
-  const { interviewId } = req.params;
+  const { id } = req.params;
 
-  const interview = await deleteIterviewService(interviewId);
+  const interview = await deleteIterviewService(id);
 
   return res.status(204).json({ message: "Interview deleted with success" });
 };

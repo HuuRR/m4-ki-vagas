@@ -8,8 +8,8 @@ import { deleteIterviewController } from "../controllers/interview.controller";
 const iterviewsRoutes = Router();
 
 iterviewsRoutes.post("", createInterviewController);
-iterviewsRoutes.get("user/:id", listInterviewByUserController);
-iterviewsRoutes.get("vacancy/:id", listIterviewByVacancyController);
+iterviewsRoutes.get("/user/:id", listInterviewByUserController);
+iterviewsRoutes.get("/vacancy/:id", listIterviewByVacancyController);
 iterviewsRoutes.patch("/:id", editIterviewController);
 iterviewsRoutes.delete("/:id", deleteIterviewController);
 

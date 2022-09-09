@@ -135,7 +135,6 @@ describe("Testando rotas de entrevistas", () => {
       .get(`/interviews/vacancy/${vacancyId}`)
       .set("Authorization", `Bearer ${companyToken}`);
 
-      console.log(response.body)
     expect(response.status).toBe(200)
     expect(response.body).toHaveLength(1)
   })

@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Vacancies } from "./vacancies.entity";
 
 @Entity('companies')
@@ -23,17 +23,17 @@ export class Company {
     @Column({ unique: true })
     email:string
 
-    @Column()
+    @Column({ default: true })
     isActive:boolean
 
     @Column()
     @Exclude()
     password: string
 
-    @Column()
+    @CreateDateColumn()
     createdAt: Date
 
-    @Column()
+    @UpdateDateColumn()
     updatedAt: Date
 
     @OneToMany(() => Vacancies, (vacancies) => vacancies.id)

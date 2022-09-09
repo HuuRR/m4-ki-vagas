@@ -17,6 +17,6 @@ const deleteIterviewService = async (id: string) => {
 
   await interviewRepository.delete(interview!);
 
-  return true;
+  return "Interview deleted with success";
 };
 export default deleteIterviewService;

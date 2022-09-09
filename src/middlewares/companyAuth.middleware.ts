@@ -1,29 +1,24 @@
-import { Request, Response, NextFunction } from "express"
-import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import { Request, Response, NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+
 
 const companyAuthMiddleware = async (req:Request, res:Response, next:NextFunction)  => {
-    let token = req.headers.authorization
+    let token = fixBearerToken(req.headers.authorization);
     
-    if(!token){
-        res.status(401).json({
-            message:'Token inválido'
-        })
-    }
+    if(!token) return res.status(401).json({message:'Token inválido'});
 
-    const newToken = token!.split(' ')[1]
-
-    jwt.verify(newToken, process.env.SECRET_KEY_COMPANY as string, (error, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY_COMPANY as string, (error, decoded) => {
         
-        if(error) {
-            return res.status(401).json({
-                message: 'Token inválido'
-            })
-        }
+        if(error) return res.status(401).json({message: 'Token inválido'});
 
-        req.headers.authorization = JSON.stringify({token, decoded})
-        next()
-    })
-}
+        req.headers.authorization = JSON.stringify({token, decoded});
 
-export default companyAuthMiddleware
+        next();
+    });
+};
+
+function fixBearerToken(token: string | undefined) {
+    return token?.toLowerCase()?.includes("bearer") ? token?.split(" ")[1] : token;
+};
+
+export default companyAuthMiddleware;

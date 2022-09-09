@@ -11,6 +11,7 @@ import { Company } from "./companies.entity";
 import { Interviews } from "./interviews.entity";
 import { Vacancies_skills } from "./vacancies_skills.entity";
 
+
 @Entity("vacancies")
 export class Vacancies {
   @PrimaryGeneratedColumn("uuid")

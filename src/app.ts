@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes";
 
 import iterviewsRoutes from "./routes/interviews.routes";
 import companyRoutes from "./routes/company.routes";
+import vancancyRoutes from "./routes/vacancy.routes";
 
 const app = express();
 app.use(express.json());

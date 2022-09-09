@@ -27,8 +27,12 @@ describe("Testando rotas de interviwes", () => {
     const createUserResponse = await request(app)
       .post("/users")
       .send(mockedUser);
-    userId = createUserResponse.body.id
 
+    const loginUserResponse = await request(app)
+      .post("/users/login")
+      .send(mockedUserLogin)
+
+    userId = loginUserResponse.body.userId
     mockedInterview.userId = userId
 
     // const createVacancyResponse = await request(app)

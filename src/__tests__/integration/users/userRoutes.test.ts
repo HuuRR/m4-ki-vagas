@@ -142,7 +142,7 @@ describe("Testando rotas do usuario", () => {
       })
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-      expect(response.status).toBe(401)
+      expect(response.status).toBe(404)
       expect(response.body).toHaveProperty("message");
   });
 
@@ -164,7 +164,7 @@ describe("Testando rotas do usuario", () => {
       .delete("/users/aa65a1cas-a6v5a1sv6-vas6vas1")
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message");
   });
 

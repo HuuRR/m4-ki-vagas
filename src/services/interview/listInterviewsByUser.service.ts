@@ -7,7 +7,7 @@ const listInterviewByUserService = async (id: string) => {
 
   const user = await usersRepository.findOne({ where: { id } });
 
-  if (!user) throw new AppError("Usuario não encontrado");
+  if (!user) throw new AppError("Usuario não encontrado", 404);
 
   return user.interviews;
 };

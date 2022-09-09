@@ -8,7 +8,7 @@ export default function verifyPersonAuthToken(request: Request, _response: Respo
     if (!token) throw new AppError("Token de autorização não encontrado.", 401)
 
     jwt.verify(token, process.env.SECRET_KEY_PERSON as string, (error, decoded) => {
-        if (error) throw new AppError("Token invalido", 400)
+        if (error) throw new AppError("Token invalido", 401)
         
         request.headers.authorization = JSON.stringify({token, decoded})
         next()

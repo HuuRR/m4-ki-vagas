@@ -25,11 +25,11 @@ export class Interviews {
   @Column({ default: null })
   feedback: string;
 
-  @ManyToOne((type) => User, (user) => user.interviews)
+  @ManyToOne(() => User, (user) => user.interviews)
   @JoinColumn()
   user: User;
 
-  @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview)
+  @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview, { eager: true })
   @JoinColumn()
   vacancy: Vacancies;
 }

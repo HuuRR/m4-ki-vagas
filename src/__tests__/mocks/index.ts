@@ -66,7 +66,7 @@ export const mockedInterview: IInterviewRequest = {
 }
 
 export const mockedInvalidDateInterview: IInterviewRequest = {
-  date: "7/08/2022",
+  date: "1/08/2022",
   hour: "12:00",
   userId: "XXXXXX-XXXXX-XXXXX",
   vacancyId: "XXXXXX-XXXXX-XXXXX"

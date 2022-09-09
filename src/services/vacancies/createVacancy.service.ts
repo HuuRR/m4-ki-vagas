@@ -1,4 +1,3 @@
-import { uuid } from "uuidv4";
 import AppDataSource from "../../data-source";
 import { Company } from "../../entities/companies.entity";
 
@@ -30,7 +29,6 @@ const createVacancyService = async ({
   }
 
   const vacancy = vacanciesRepository.create({
-    id: uuid(),
     name: name,
     salary: salary,
     description: description,

@@ -9,7 +9,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { Exclude } from "class-transformer";
-import { Interviews } from "./iterviews.entity";
+import { Interviews } from "./interviews.entity";
 import { User_skills } from "./user_skills.entity";
 
 @Entity("users")

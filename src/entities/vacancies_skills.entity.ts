@@ -25,7 +25,4 @@ export class Vacancies_skills {
 
     @Column()
     docker: boolean
-
-    // @OneToMany(() => Vacancies, (Vacancies) => Vacancies.vacancies_skills_id)
-    // vacancies: Vacancies[]
 }

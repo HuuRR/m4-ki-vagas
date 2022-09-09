@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { Vacancies } from "../../entities/vacancies.entity";
-import ErrorHTTP from "../../errors";
+import { AppError } from "../../errors/AppError";
 import { ServiceResponse } from "../../interfaces";
 import { IVacancy } from "../../interfaces/vacancies";
 
@@ -13,7 +13,7 @@ export default async function updateVacancyservice({
 
   const vacancy = await vacanciesRepository.findOne({ where: { description } });
 
-  if (!vacancy) throw new ErrorHTTP("Vacancy Not Found.");
+  if (!vacancy) throw new AppError("Vacancy Not Found.", 404);
 
   await vacanciesRepository.update(description, {
     name: name || vacancy.name,

@@ -31,7 +31,7 @@ export default class User {
 
   @Column({ nullable: false, unique: true })
   @Exclude()
-  CPF: number
+  CPF: string
 
   @Column({ nullable: false, default: true })
   @Exclude()

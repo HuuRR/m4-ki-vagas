@@ -2,7 +2,7 @@ export interface IInterviewRequest {
   hour: string;
   date: string;
   userId: string;
-  // vacancyId: string;
+  vacancyId: string;
 }
 
 export interface IInterview {

@@ -1,18 +1,20 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
 import { IInterviewRequest } from "../../interfaces/interviews";
-import { Interviews } from "../../entities/iterviews.entity";
+import { Interviews } from "../../entities/interviews.entity";
 import User from "../../entities/users.entity";
-// import Vacancy...
+import { Vacancies } from "../../entities/vacancies.entity";
+import { instanceToPlain } from "class-transformer"
 
 const createIterviewService = async ({
   hour,
   date,
   userId,
+  vacancyId
 }: IInterviewRequest) => {
   const interviewRepository = AppDataSource.getRepository(Interviews);
   const usersRepository = AppDataSource.getRepository(User);
-  //   const vacancyRepository...
+  const vacancyRepository = AppDataSource.getRepository(Vacancies)
 
   const user = await usersRepository.findOne({
     where: {
@@ -23,15 +25,16 @@ const createIterviewService = async ({
   if (!user) {
     throw new AppError("User not found", 404);
   }
-  //   const vacancy = await vacancyRepository.findOne({
-  //     where: {
-  //       id: vacancyId,
-  //     },
-  //   });
 
-  //   if (!vacancy) {
-  //     throw new AppError("Vacancy not found", 404);
-  //   }
+  const vacancy = await vacancyRepository.findOne({
+      where: {
+        id: vacancyId,
+      },
+    });
+
+    if (!vacancy) {
+      throw new AppError("Vacancy not found", 404);
+    }
 
   let dateFormat = new Date(date);
   let days = dateFormat.getDay();
@@ -48,12 +51,12 @@ const createIterviewService = async ({
   newInterview.date = date;
   newInterview.hour = hour;
   newInterview.user = user;
-  //   newInterview.vacancy = vacancy
+  newInterview.vacancy = vacancy;
 
   interviewRepository.create(newInterview);
   await interviewRepository.save(newInterview);
 
-  return newInterview;
+  return instanceToPlain(newInterview);
 };
 
 export default createIterviewService;

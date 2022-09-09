@@ -4,10 +4,11 @@ import { deleteVacancyController } from "../controllers/vacancy/deleteVacancy.co
 import listVacanciesController from "../controllers/vacancy/listVacancies.controller";
 import { listVacancyByIdController } from "../controllers/vacancy/listVacancyById.controller";
 import { updateVacancyController } from "../controllers/vacancy/updateVacancy.controller";
+import companyAuthMiddleware from "../middlewares/companyAuth.middleware";
 
 const vancancyRoutes = Router();
 
-vancancyRoutes.post("", createVacancyController);
+vancancyRoutes.post("", companyAuthMiddleware, createVacancyController);
 vancancyRoutes.get("", listVacanciesController);
 vancancyRoutes.get("/:id", listVacancyByIdController);
 vancancyRoutes.patch("/:id", updateVacancyController);

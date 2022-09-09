@@ -30,6 +30,6 @@ export class Vacancies {
   @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id)
   vacancy_skills: Vacancies_skills;
 
-  @OneToMany(() => Interviews, (interview) => interview.vancancy)
-  interview: Interviews;
+  @OneToMany(() => Interviews, (interview) => interview.id)
+  interview: Interviews[];
 }

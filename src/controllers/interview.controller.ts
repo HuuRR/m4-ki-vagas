@@ -9,9 +9,9 @@ export const createInterviewController = async (
   req: Request,
   res: Response
 ) => {
-  const { hour, date, userId } = req.body;
+  const { hour, date, userId, vacancyId } = req.body;
 
-  const newIterview = await createIterviewService({ hour, date, userId });
+  const newIterview = await createIterviewService({ hour, date, userId, vacancyId });
 
   return res.status(201).json(newIterview);
 };

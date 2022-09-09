@@ -35,16 +35,15 @@ describe("Testando rotas de interviwes", () => {
       .send(mockedUserLogin)).body.token
 
 
-    await request(app)
+    let createCompanyResponse = await request(app)
       .post("/company")
       .send(mockedCompany);
 
-    let companyLoginResponse = (await request(app)
+    companyToken = (await request(app)
       .post("/company/login")
       .send(mockedCompanyLogin)).body
     
-    companyToken = companyLoginResponse.token
-    companyId = companyLoginResponse.id // pode ser userId
+    companyId = createCompanyResponse.body.id
 
     mockedVacancy.companyId = companyId
 

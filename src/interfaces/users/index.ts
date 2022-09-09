@@ -4,7 +4,7 @@ export interface ICreateUser {
   name: string;
   password: string;
   email: string;
-  cpf: number;
+  cpf: string;
   skills: {};
 }
 
@@ -12,7 +12,7 @@ export interface IUpdateUser {
   name: string;
   password: string;
   email: string;
-  cpf: number;
+  cpf: string;
   id: string;
   skills: {};
 }
@@ -20,7 +20,7 @@ export interface IUpdateUser {
 export interface ILoginUser {
   password: string,
   email: string,
-  cpf: number
+  cpf: string
 }
 
 export interface IUserSkills {

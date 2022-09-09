@@ -13,6 +13,7 @@ app.use(express.json());
 app.use("/company", companyRoutes);
 app.use("/users", userRoutes);
 app.use("/interviews", iterviewsRoutes);
+app.use("/vacancies", vancancyRoutes)
 
 app.use(handleErrorMiddleware);
 

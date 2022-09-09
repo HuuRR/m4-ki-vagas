@@ -25,7 +25,7 @@ const createCompanyControllers = async (req: Request, res: Response) => {
 const retrieveCompanyControllers = async (req: Request, res: Response) => {
   const { id } = req.params;
   const company = await retrieveCompanyService(id);
-  return res.status(201).json(instanceToPlain(company));
+  return res.status(200).json(company);
 };
 
 const updateCompanyControllers = async (req: Request, res: Response) => {
@@ -40,13 +40,13 @@ const updateCompanyControllers = async (req: Request, res: Response) => {
     email,
     password,
   });
-  return res.status(201).json(instanceToPlain(company));
+  return res.status(200).json(company);
 };
 
 const deleteCompanyControllers = async (req: Request, res: Response) => {
   const { id } = req.params;
   await deleteCompanyService(id);
-  res.status(204).json({ message: "Empresa deletada com sucesso" });
+  res.status(200).json({ message: "Empresa deletada com sucesso" });
 };
 
 const loginCompanyControllers = async (req:Request, res:Response)  => {

@@ -31,5 +31,5 @@ export class Interviews {
 
   @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview)
   @JoinColumn()
-  vancancy: Vacancies;
+  vacancy: Vacancies;
 }

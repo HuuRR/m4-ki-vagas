@@ -2,12 +2,12 @@ import { DataSource } from "typeorm";
 import request from "supertest";
 import AppDataSource from "../../../data-source";
 import app from "../../../app";
-import { mockedInterview, mockedInvalidDateInterview, mockedInvalidHourInterview, mockedUser, mockedUserLogin } from "../../mocks";
+import { mockedInterview, mockedInvalidDateInterview, mockedInvalidHourInterview, mockedUser, mockedUserLogin, mockedVacancy } from "../../mocks";
 
 describe("Testando rotas de interviwes", () => {
   let connection: DataSource;
   let userId: string
-  // let vancancyId: string
+  let vacancyId: string
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -24,7 +24,7 @@ describe("Testando rotas de interviwes", () => {
   });
 
   test("POST /interviews - Deve ser capaz de criar uma entrevista", async () => {
-    const createUserResponse = await request(app)
+    await request(app)
       .post("/users")
       .send(mockedUser);
 
@@ -35,12 +35,12 @@ describe("Testando rotas de interviwes", () => {
     userId = loginUserResponse.body.userId
     mockedInterview.userId = userId
 
-    // const createVacancyResponse = await request(app)
-    //   .post("/vacancy")
-    //   .send(mockedUser);
-    // vancancyId = createVacancyResponse.body.id
+    const createVacancyResponse = await request(app)
+      .post("/vacancy")
+      .send(mockedVacancy);
+    vacancyId = createVacancyResponse.body.id
 
-    // mockedInterview.vacancyId = vancancyId
+    mockedInterview.vacancyId = vacancyId
 
     const response = await request(app)
       .post("/interviews")
@@ -51,7 +51,7 @@ describe("Testando rotas de interviwes", () => {
     expect(response.body).toHaveProperty("date")
     expect(response.body).toHaveProperty("isOver")
     expect(response.body).toHaveProperty("feedback")
-    expect(response.body).toHaveProperty("interviewId")
+    expect(response.body).toHaveProperty("interviews")
   })
 
   test("POST /interviews - Não deve ser capaz de criar uma entrevista com a data errada", async () => {

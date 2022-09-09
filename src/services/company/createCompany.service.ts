@@ -1,5 +1,4 @@
 import AppDataSource from "../../data-source"
-import { v4 as uuidv4 } from "uuid"
 import { Company } from "../../entities/companies.entity"
 import { ICompanyRequest } from "../../interfaces/companies"
 import { hash } from "bcrypt"
@@ -19,10 +18,13 @@ const createCompanyService =  async ({name, CNPJ, cidade_estado, qtde_funcionari
         throw new AppError("Senha não informada")
     }
 
+    const company = await companyRepository.findOne({where: {CNPJ}})
+
+    if (company) throw new AppError("Company already exists")
+
     const hashedPassword = await hash(password,10)
 
     const newCompany = companyRepository.create({
-        id: uuidv4(),
         name, 
         CNPJ, 
         cidade_estado, 

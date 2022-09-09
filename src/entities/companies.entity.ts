@@ -10,6 +10,7 @@ export class Company {
     name:string
 
     @Column({ unique: true })
+    @Exclude()
     CNPJ:string
 
     @Column()

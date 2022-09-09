@@ -3,7 +3,7 @@ import { IInterviewRequest } from "../../interfaces/interviews";
 import { ICreateUser, ILoginUser } from "../../interfaces/users";
 
 export const mockedUser: ICreateUser = {
-  cpf: "12345678900",
+  cpf: 12345678900,
   email: "email@mail.com",
   name: "Usuario Criado",
   password: "1234",
@@ -15,7 +15,7 @@ export const mockedUser: ICreateUser = {
 };
 
 export const mockedInvalidCpfUser: ICreateUser = {
-  cpf: "123456789123456",
+  cpf: 123456789123456,
   email: "email2@mail.com",
   name: "Usuario invalido",
   password: "123456",
@@ -29,7 +29,7 @@ export const mockedInvalidCpfUser: ICreateUser = {
 export const mockedUserLogin: ILoginUser = {
   email: "email@mail.com",
   password: "1234",
-  cpf: "12345678900"
+  cpf: 12345678900
 };
 
 
@@ -61,21 +61,21 @@ export const mockedInterview: IInterviewRequest = {
   date: "12/08/2022",
   hour: "12:00",
   userId: "XXXXXX-XXXXX-XXXXX",
-  vacancyId: "XXXXXX-XXXXX-XXXXX"
+  // vacancyId: "XXXXXX-XXXXX-XXXXX"
 }
 
 export const mockedInvalidDateInterview: IInterviewRequest = {
   date: "7/08/2022",
   hour: "12:00",
   userId: "XXXXXX-XXXXX-XXXXX",
-  vacancyId: "XXXXXX-XXXXX-XXXXX"
+  // vacancyId: "XXXXXX-XXXXX-XXXXX"
 }
 
 export const mockedInvalidHourInterview: IInterviewRequest = {
   date: "10/08/2022",
   hour: "5:00",
   userId: "XXXXXX-XXXXX-XXXXX",
-  vacancyId: "XXXXXX-XXXXX-XXXXX"
+  // vacancyId: "XXXXXX-XXXXX-XXXXX"
 }
 
 export const mockedVacancy = {

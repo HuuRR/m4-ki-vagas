@@ -10,7 +10,7 @@ import * as bcrypt from "bcrypt"
 
 export default async function createUserService({cpf, email, name, password, skills}: ICreateUser): Promise<ServiceResponse> {
 
-    if (cpf.length > 11) throw new AppError('Tamanho do cpf inválido')
+    if (cpf.toString().length > 11) throw new AppError('Tamanho do cpf inválido')
 
     const usersRepository = AppDataSource.getRepository(User)
 

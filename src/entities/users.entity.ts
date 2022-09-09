@@ -29,11 +29,13 @@ export default class User {
   @Exclude()
   email: string;
 
+  @Column({ nullable: false, unique: true })
+  @Exclude()
+  CPF: number
 
-    @Column({ nullable: false, unique: true })
-    @Exclude()
-    cpf: number
-
+  @Column({ nullable: false, default: true })
+  @Exclude()
+  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: string;

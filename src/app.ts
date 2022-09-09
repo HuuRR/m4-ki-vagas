@@ -6,6 +6,7 @@ import companyRautes from "./routes/company.routes";
 import errorHandlerMiddleware from "./middlewares/errorHandler.middleware";
 import userRoutes from "./routes/user.routes"
 import loginRoutes from "./routes/login.routes"
+import vancancyRoutes from "./routes/vacancy.routes";
 
 const app = express();
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(handleErrorMiddleware)
 export default app;
 app.use("/users", userRoutes)
 app.use("/login", loginRoutes)
+app.use("/vacancies", vancancyRoutes)
 
 app.use(errorHandlerMiddleware)
 

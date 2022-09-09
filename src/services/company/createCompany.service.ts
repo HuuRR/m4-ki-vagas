@@ -31,10 +31,10 @@ const createCompanyService =  async ({name, CNPJ, cidade_estado, qtde_funcionari
         createdAt: new Date(),
         updatedAt: new Date()
     })
-    
+ 
     await companyRepository.save(newCompany)
 
-    return(newCompany)
+    return newCompany
 }
 
 export default createCompanyService

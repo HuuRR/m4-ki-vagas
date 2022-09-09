@@ -1,4 +1,5 @@
 import { ICompanyRequest, ICompanyLogin } from "../../interfaces/companies";
+import { IInterviewRequest } from "../../interfaces/interviews";
 import { ICreateUser, ILoginUser } from "../../interfaces/users";
 
 export const mockedUser: ICreateUser = {
@@ -54,4 +55,40 @@ export const mockedCompanyLogin: ICompanyLogin = {
   CNPJ: "12345678912345",
   email: "empresa@mail.com",
   password: "1234"
+}
+
+export const mockedInterview: IInterviewRequest = {
+  date: "12/08/2022",
+  hour: "12:00",
+  userId: "XXXXXX-XXXXX-XXXXX",
+  vacancyId: "XXXXXX-XXXXX-XXXXX"
+}
+
+export const mockedInvalidDateInterview: IInterviewRequest = {
+  date: "7/08/2022",
+  hour: "12:00",
+  userId: "XXXXXX-XXXXX-XXXXX",
+  vacancyId: "XXXXXX-XXXXX-XXXXX"
+}
+
+export const mockedInvalidHourInterview: IInterviewRequest = {
+  date: "10/08/2022",
+  hour: "5:00",
+  userId: "XXXXXX-XXXXX-XXXXX",
+  vacancyId: "XXXXXX-XXXXX-XXXXX"
+}
+
+export const mockedVacancy = {
+  name: "Full Stack developer",
+  salary: 0,
+  description: "XXXXXXXXXXXXXXXXXXXX",
+  companyId: "XXXXXXXXXXXXX",
+  skills: {
+    javascript: true,
+    css: true,
+    html: true,
+    react: true,
+    docker: true,
+    express: true
+  }
 }

@@ -15,6 +15,7 @@ import { User_skills } from "./user_skills.entity";
 @Entity("users")
 export default class User {
   @PrimaryGeneratedColumn("uuid")
+  @Exclude()
   id: string;
 
   @Column({ nullable: false })
@@ -44,7 +45,7 @@ export default class User {
   @OneToMany(() => Interviews, (interviews) => interviews.user, { eager: true })
   interviews: Interviews[];
 
-  @OneToOne(() => User_skills, (user_skills) => user_skills.id, {eager: true})
+  @OneToOne(() => User_skills, (user_skills) => user_skills.id, { eager: true })
   @JoinColumn()
   user_skills: User_skills
 }

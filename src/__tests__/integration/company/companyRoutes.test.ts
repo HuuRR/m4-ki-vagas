@@ -31,11 +31,11 @@ describe("Testando rotas de company", () => {
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
-    expect(response.body).toHaveProperty("user_skills");
+    expect(response.body).toHaveProperty("cidade_estado");
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
     expect(response.body).not.toHaveProperty("email");
-    expect(response.body).not.toHaveProperty("cpf");
+    expect(response.body).not.toHaveProperty("CNPJ");
     expect(response.body).not.toHaveProperty("password");
     expect(response.body.name).toEqual("Usuario Criado");
   });
@@ -77,7 +77,7 @@ describe("Testando rotas de company", () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty("password");
-    expect(response.body).toHaveProperty("CPF");
+    expect(response.body).toHaveProperty("CNPJ");
     expect(response.body).toHaveProperty("email");
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("id");
@@ -107,24 +107,24 @@ describe("Testando rotas de company", () => {
     const response = await request(app)
       .patch(`/company/${companyId}`)
       .send({
-        name: "Usuário editado"
+        name: "Empresa Editada"
       })
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
       expect(response.status).toBe(200)
       expect(response.body).toHaveProperty("password");
-      expect(response.body).toHaveProperty("CPF");
+      expect(response.body).toHaveProperty("CNPJ");
       expect(response.body).toHaveProperty("email");
       expect(response.body).toHaveProperty("name");
       expect(response.body).toHaveProperty("id");
-      expect(response.body.name).toEqual("Usuário editado")
+      expect(response.body.name).toEqual("Empresa Editada")
   });
 
   test("PATCH /company/:id - Não deve ser capaz de atualizar propriedade da empresa sem token", async () => {
     const response = await request(app)
       .patch(`/company/${companyId}`)
       .send({
-        name: "Usuario editado"
+        name: "Empresa Editada"
       });
 
       expect(response.status).toBe(401)
@@ -137,7 +137,7 @@ describe("Testando rotas de company", () => {
     const response = await request(app)
       .patch("/company/va6s51v-afwq19v-vq8v41wq")
       .send({
-        name: "Usuario editado"
+        name: "Empresa Editada"
       })
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 

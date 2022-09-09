@@ -34,7 +34,7 @@ const loginCompanyService = async ({ email, password }:ICompanyLogin): Promise<s
           
         },
         
-          process.env.SECRET_KEY_COMPANY as string,
+        process.env.SECRET_KEY_COMPANY as string,
         
         {
           subject:company.id,

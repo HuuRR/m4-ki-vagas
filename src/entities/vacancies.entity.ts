@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -27,7 +28,8 @@ export class Vacancies {
   @ManyToOne(() => Company, { eager: true })
   company: Company;
 
-  @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id)
+  @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id, {eager: true})
+  @JoinColumn()
   vacancy_skills: Vacancies_skills;
 
   @OneToMany(() => Interviews, (interview) => interview.id)

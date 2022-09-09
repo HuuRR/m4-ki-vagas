@@ -34,14 +34,13 @@ describe("Testando rotas de interviwes", () => {
       .post("/users/login")
       .send(mockedUserLogin)).body.token
 
-
     let createCompanyResponse = await request(app)
       .post("/company")
       .send(mockedCompany);
 
     companyToken = (await request(app)
       .post("/company/login")
-      .send(mockedCompanyLogin)).body
+      .send(mockedCompanyLogin)).body.token
     
     companyId = createCompanyResponse.body.id
 
@@ -51,12 +50,12 @@ describe("Testando rotas de interviwes", () => {
       .post("/vacancies")
       .send(mockedVacancy)
       .set("Authorization", `Bearer ${companyToken}`);
-    
+        
     expect(response.status).toBe(201)
     expect(response.body).toHaveProperty("name")
     expect(response.body).toHaveProperty("salary")
     expect(response.body).toHaveProperty("description")
-    expect(response.body).toHaveProperty("skills")
+    expect(response.body).toHaveProperty("vacancy_skills")
     expect(response.body).not.toHaveProperty("companyId")
   })
 

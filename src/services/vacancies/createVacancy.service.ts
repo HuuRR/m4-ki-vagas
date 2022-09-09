@@ -48,7 +48,8 @@ const createVacancyService = async ({
     name,
     salary,
     description,
-    company
+    company,
+    vacancy_skills: newVacancySkills
   });
 
   await vacanciesRepository.save(vacancy);

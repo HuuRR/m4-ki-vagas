@@ -81,7 +81,7 @@ export const mockedInvalidHourInterview: IInterviewRequest = {
 
 export const mockedVacancy: IVacancy = {
   name: "Full Stack developer",
-  salary: 0,
+  salary: 1,
   description: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
   companyId: "XXXXXXXXXXXXX",
   vacancy_skills: {

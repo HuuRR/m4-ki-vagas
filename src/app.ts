@@ -3,9 +3,8 @@ import express from "express";
 import "express-async-errors";
 import handleErrorMiddleware from "./middlewares/handleError.middlewares";
 import companyRoutes from "./routes/company.routes";
-import errorHandlerMiddleware from "./middlewares/errorHandler.middleware";
 import userRoutes from "./routes/user.routes";
-import loginRoutes from "./routes/login.routes";
+import loginRoutes from "./routes/user.routes";
 import vancancyRoutes from "./routes/vacancy.routes";
 import iterviewsRoutes from "./routes/interviews.routes";
 
@@ -24,4 +23,4 @@ app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
 app.use("/vacancies", vancancyRoutes);
 
-app.use(errorHandlerMiddleware);
+app.use(handleErrorMiddleware);

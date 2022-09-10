@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
 import { IInterviewRequest } from "../../interfaces/interviews";
-import { Interviews } from "../../entities/iterviews.entity";
+import { Interviews } from "../../entities/interviews.entity";
 import User from "../../entities/users.entity";
 // import Vacancy...
 

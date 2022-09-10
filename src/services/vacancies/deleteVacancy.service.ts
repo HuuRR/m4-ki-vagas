@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { Vacancies } from "../../entities/vacancies.entity";
-import ErrorHTTP from "../../errors";
+import { AppError } from "../../errors/AppError";
 import { ServiceResponse } from "../../interfaces";
 
 export default async function deleteVacancyService(
@@ -10,7 +10,7 @@ export default async function deleteVacancyService(
 
   const vacancy = await vacanciesRepository.findOne({ where: { description } });
 
-  if (!vacancy) throw new ErrorHTTP("Vacancy not found.");
+  if (!vacancy) throw new AppError("Vacancy not found");
 
   await vacanciesRepository.delete(vacancy);
 

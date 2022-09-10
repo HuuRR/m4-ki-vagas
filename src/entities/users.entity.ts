@@ -9,7 +9,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { Exclude } from "class-transformer";
-import { Interviews } from "./iterviews.entity";
+import { Interviews } from "./interviews.entity";
 import { User_skills } from "./user_skills.entity";
 
 @Entity("users")
@@ -28,12 +28,12 @@ export default class User {
   @Exclude()
   email: string;
 
-
-    @Column({ nullable: false, unique: true })
-    @Exclude()
-    cpf: number
-
-
+  @Column({ nullable: false, unique: true })
+  @Exclude()
+  cpf: string
+  
+  @Column({default: true})
+  isActive: boolean;
   @CreateDateColumn()
   createdAt: string;
 

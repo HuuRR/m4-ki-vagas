@@ -1,6 +1,6 @@
 import AppDataSource from "../../data-source";
 import { AppError } from "../../errors/AppError";
-import { Interviews } from "../../entities/iterviews.entity";
+import { Interviews } from "../../entities/interviews.entity";
 import { IInterview } from "../../interfaces/interviews";
 
 const editIterviewService = async ({

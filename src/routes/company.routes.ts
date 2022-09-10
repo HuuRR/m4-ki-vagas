@@ -6,11 +6,11 @@ import companyAuthMiddleware from "../middlewares/companyAuth.middleware";
 
 const companyRoutes = Router()
 
-companyRautes.post('', createCompanyControllers)
-companyRautes.get('/:id',companyAuthMiddleware, retrieveCompanyControllers)
-companyRautes.patch('/:id', companyAuthMiddleware, updateCompanyControllers)
-companyRautes.delete('/:id', companyAuthMiddleware, deleteCompanyControllers)
-companyRautes.post('/login',loginCompanyControllers)
+companyRoutes.post('', createCompanyControllers)
+companyRoutes.get('/:id',companyAuthMiddleware, retrieveCompanyControllers)
+companyRoutes.patch('/:id', companyAuthMiddleware, updateCompanyControllers)
+companyRoutes.delete('/:id', companyAuthMiddleware, deleteCompanyControllers)
+companyRoutes.post('/login',loginCompanyControllers)
 
 
 export default companyRoutes

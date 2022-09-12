@@ -1,7 +1,6 @@
 import { Router } from "express";
 
-import { createCompanyControllers, deleteCompanyControllers, retrieveCompanyControllers, updateCompanyControllers } from "../controllers/company.controllers";
-import loginCompanyControllers from "../controllers/loginCompany.controlers";
+import { createCompanyControllers, deleteCompanyControllers, retrieveCompanyControllers, updateCompanyControllers, loginCompanyControllers } from "../controllers/company.controllers";
 import companyAuthMiddleware from "../middlewares/companyAuth.middleware";
 
 const companyRoutes = Router()

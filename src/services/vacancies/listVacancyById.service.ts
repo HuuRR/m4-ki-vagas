@@ -8,7 +8,9 @@ export default async function listVacancyByIdService(id: string): Promise<Servic
 
     const vacancy = await vacanciesRepository.findOne({where: {id}})
 
-    if (!vacancy) throw new AppError('Vacancy not found.')
+
+    if (!vacancy) throw new AppError('Vacancy not found.', 404)
+
 
     return {
         status: 200,

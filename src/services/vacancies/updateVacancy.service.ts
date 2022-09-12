@@ -4,18 +4,20 @@ import { AppError } from "../../errors/AppError";
 import { ServiceResponse } from "../../interfaces";
 import { IVacancy } from "../../interfaces/vacancies";
 
-export default async function updateVacancyservice({
+export default async function updateVacancyservice(id: string, {
   name,
   salary,
   description,
 }: IVacancy): Promise<ServiceResponse> {
   const vacanciesRepository = AppDataSource.getRepository(Vacancies);
 
-  const vacancy = await vacanciesRepository.findOne({ where: { description } });
+  const vacancy = await vacanciesRepository.findOne({ where: { id } });
 
-  if (!vacancy) throw new AppError("Vacancy Not Found.");
 
-  await vacanciesRepository.update(description, {
+  if (!vacancy) throw new AppError("Vacancy Not Found.", 404);
+
+
+  await vacanciesRepository.update(id, {
     name: name || vacancy.name,
     salary: salary || vacancy.salary,
     description: description || vacancy.description,
@@ -23,6 +25,6 @@ export default async function updateVacancyservice({
 
   return {
     status: 200,
-    response: vacancy,
+    response: await vacanciesRepository.findOne({ where: { id } })
   };
 }

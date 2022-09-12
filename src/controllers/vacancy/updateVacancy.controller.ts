@@ -6,12 +6,14 @@ export async function updateVacancyController(
   request: Request,
   response: Response
 ): Promise<void> {
-  const { name, salary, description } = request.body;
+  const { id } = request.params
+  const { name, salary, description, vacancy_skills, companyId } = request.body;
 
-  const serviceResponse: ServiceResponse = await updateVacancyservice({
+  const serviceResponse: ServiceResponse = await updateVacancyservice(id, {
     name,
     salary,
     description,
+    vacancy_skills
   });
 
   response.status(serviceResponse.status).json(serviceResponse.response);

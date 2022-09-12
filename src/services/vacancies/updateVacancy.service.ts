@@ -13,7 +13,9 @@ export default async function updateVacancyservice(id: string, {
 
   const vacancy = await vacanciesRepository.findOne({ where: { id } });
 
+
   if (!vacancy) throw new AppError("Vacancy Not Found.", 404);
+
 
   await vacanciesRepository.update(id, {
     name: name || vacancy.name,

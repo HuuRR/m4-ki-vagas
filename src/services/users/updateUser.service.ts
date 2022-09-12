@@ -21,7 +21,7 @@ export default async function updateUserService({name, cpf, email, id, password,
     
     await usersRepository.update(id, {
         name: name || user.name,
-        CPF: cpf || user.CPF,
+        cpf: cpf || user.cpf,
         email: email || user.email,
         password: password || user.password
     })

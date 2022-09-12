@@ -10,7 +10,9 @@ export default async function deleteVacancyService(
 
   const vacancy = await vacanciesRepository.findOne({ where: { description } });
 
+
   if (!vacancy) throw new AppError("Vacancy not found.", 404);
+
 
   await vacanciesRepository.delete(vacancy);
 

@@ -2,10 +2,12 @@ import "reflect-metadata";
 import "express-async-errors";
 import express from "express";
 import handleErrorMiddleware from "./middlewares/handleError.middlewares";
-import userRoutes from "./routes/user.routes";
-import interviewsRoutes from "./routes/interviews.routes";
 import companyRoutes from "./routes/company.routes";
-import vacancyRoutes from "./routes/vacancy.routes";
+import userRoutes from "./routes/user.routes";
+import loginRoutes from "./routes/user.routes";
+import vancancyRoutes from "./routes/vacancy.routes";
+import iterviewsRoutes from "./routes/interviews.routes";
+
 
 const app = express();
 app.use(express.json());
@@ -18,3 +20,4 @@ app.use("/vacancies", vacancyRoutes)
 app.use(handleErrorMiddleware);
 
 export default app;
+

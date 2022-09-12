@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Vacancies } from "./vacancies.entity";
 
 @Entity('companies')
 export class Company {
@@ -10,6 +11,7 @@ export class Company {
     name:string
 
     @Column({ unique: true })
+    @Exclude()
     CNPJ:string
 
     @Column()
@@ -33,5 +35,7 @@ export class Company {
 
     @Column()
     updatedAt: Date
-   
+
+    @OneToMany(() => Vacancies, (vacancies) => vacancies.id)
+    vacancies: Vacancies
 }

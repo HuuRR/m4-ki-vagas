@@ -1,5 +1,4 @@
-import {
-  Entity,
+import { Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
@@ -31,8 +30,7 @@ export default class User {
 
   @Column({ nullable: false, unique: true })
   @Exclude()
-  cpf: string
-  
+  CPF: string
 
   @Column({ nullable: false, default: true })
   @Exclude()

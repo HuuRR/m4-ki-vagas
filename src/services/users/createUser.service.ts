@@ -14,7 +14,7 @@ export default async function createUserService({cpf, email, name, password, ski
 
     const usersRepository = AppDataSource.getRepository(User)
 
-    const user = await usersRepository.findOne({where: {cpf: cpf}})
+    const user = await usersRepository.findOne({where: {CPF: cpf}})
 
     if (user) throw new AppError('Usuário já foi criado')
 
@@ -26,7 +26,7 @@ export default async function createUserService({cpf, email, name, password, ski
 
     const hashedPassword = bcrypt.hashSync(password, 10)
 
-    const newUser = usersRepository.create({ cpf: cpf, email, name, password: hashedPassword, user_skills: newUserSkills})
+    const newUser = usersRepository.create({ CPF: cpf, email, name, password: hashedPassword, user_skills: newUserSkills})
 
     await usersRepository.save(newUser)
     

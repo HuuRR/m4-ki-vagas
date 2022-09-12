@@ -11,7 +11,7 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
 
     const userRepository = AppDataSource.getRepository(User)
     
-    const user = cpf ? await userRepository.findOne({where: {cpf: cpf}}) : await userRepository.findOne({where: {email}})
+    const user = cpf ? await userRepository.findOne({where: {CPF: cpf}}) : await userRepository.findOne({where: {email}})
         
     if (!user) throw new AppError('Senha ou email invalidos')
 

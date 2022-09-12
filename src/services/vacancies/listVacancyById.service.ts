@@ -1,17 +1,16 @@
 import AppDataSource from "../../data-source";
 import { Vacancies } from "../../entities/vacancies.entity";
-import ErrorHTTP from "../../errors";
-import { ServiceResponse } from "../../interfaces";
+import { AppError } from "../../errors/AppError";
 
-export default async function listVacancyByIdService(id: string): Promise<ServiceResponse> {
-    const vacanciesRepository = AppDataSource.getRepository(Vacancies)
+const listVacancyByIdService = async (id: string): Promise<Vacancies> => {
 
-    const vacancy = await vacanciesRepository.findOne({where: {id}})
+    const vacanciesRepository = AppDataSource.getRepository(Vacancies);
 
-    if (!vacancy) throw new ErrorHTTP('Vacancy not found.')
+    const vacancy = await vacanciesRepository.findOne({where: {id}});
 
-    return {
-        status: 200,
-        response: vacancy
-    }
-}
+    if (!vacancy) throw new AppError('Vacancy not found.', 404);
+
+    return vacancy
+};
+
+export default listVacancyByIdService;

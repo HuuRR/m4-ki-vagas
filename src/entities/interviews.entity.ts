@@ -1,13 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
-
-import { Vacancies } from "./vacancies.entity";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 import User from "./users.entity";
+import { Vacancies } from "./vacancies.entity";
 
 @Entity()
 export class Interviews {
@@ -26,11 +19,11 @@ export class Interviews {
   @Column({ default: null })
   feedback: string;
 
-  @ManyToOne((type) => User, (user) => user.interviews)
+  @ManyToOne(() => User, (user) => user.interviews)
   @JoinColumn()
   user: User;
 
-  @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview)
+  @ManyToOne(() => Vacancies, (vancancies) => vancancies.interview, { eager: true })
   @JoinColumn()
-  vancancy: Vacancies;
+  vacancy: Vacancies;
 }

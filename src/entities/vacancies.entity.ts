@@ -1,12 +1,15 @@
-import {
-  Column,
+import { Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Company } from "./companies.entity";
 import { Interviews } from "./interviews.entity";
+import { Vacancies_skills } from "./vacancies_skills.entity";
+
 
 @Entity("vacancies")
 export class Vacancies {
@@ -25,10 +28,10 @@ export class Vacancies {
   @ManyToOne(() => Company, { eager: true })
   company: Company;
 
-//DESCOMENTAR QUANDO TIVER FEITO A ENTITY "VACANCY_SKILLS"
-//   @OneToMany(() => Vacancy_skills, (vacancy_skills) => vacancy_skills.vancancy)
-//   vacancy_skills: Vacancy_skills;
+  @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id, {eager: true})
+  @JoinColumn()
+  vacancy_skills: Vacancies_skills;
 
-  @OneToMany(() => Interviews, (interview) => interview.vancancy)
-  interview: Interviews;
+  @OneToMany(() => Interviews, (interview) => interview.id)
+  interview: Interviews[];
 }

@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { AppError } from "../errors/AppError";
-import { ServiceResponse } from "../interfaces";
 import createUserService from "../services/users/createUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
 import listUserByIdService from "../services/users/listUserById.service";
@@ -8,62 +6,51 @@ import listUsersService from "../services/users/listUsers.service";
 import loginUserService from "../services/users/loginUser.service";
 import updateUserService from "../services/users/updateUser.service";
 
+
 export async function createUserController(request: Request, response: Response): Promise<void> {
-    const { name, email, password, cpf, skills } = request.body
+    const { name, email, password, cpf, skills } = request.body;
 
-    const serviceResponse: ServiceResponse = await createUserService({name, email, password, cpf, skills})
+    const user = await createUserService({name, email, password, cpf, skills});
 
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    response.status(201).json(user);
+};
 
 export async function deleteUserController(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params;
 
-    const { decoded: { id: tokenId } } = JSON.parse(request.headers.authorization!)
+    const message = await deleteUserService(id);
 
-    if (id !== tokenId) throw new AppError('Usuário não é o dono', 401)
-
-    const serviceResponse: ServiceResponse = await deleteUserService(id)
-
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    response.status(200).json({ message });
+};
 
 export async function listUsersController(_request: Request, response: Response): Promise<void> {
-    const serviceResponse: ServiceResponse = await listUsersService()
+    const users = await listUsersService();
 
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    response.status(200).json(users);
+};
 
 export async function listUserByIdController(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params;
 
-    const { decoded: { id: tokenId } } = JSON.parse(request.headers.authorization!)
+    const user = await listUserByIdService(id);
 
-    if (id !== tokenId) throw new AppError('Usuário não é o dono', 401)
-
-    const serviceResponse: ServiceResponse = await listUserByIdService(id)
-
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    response.status(200).json(user);
+};
 
 export async function updateUserController(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params;
 
-    const { decoded: { id: tokenId } } = JSON.parse(request.headers.authorization!)
+    const { name, cpf, email, password, skills } = request.body;
 
-    if (id !== tokenId) throw new AppError('Usuário não é o dono', 401)
+    const user = await updateUserService({name, cpf, email, id, password, skills});
 
-    const { name, cpf, email, password, skills } = request.body
+    response.status(200).json(user);
+};
 
-    const serviceResponse: ServiceResponse = await updateUserService({name, cpf, email, id, password, skills})
+export async function loginUserController(request: Request, response: Response): Promise<void> {
+    const { email, password, cpf } = request.body;
 
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    const serviceResponse = await loginUserService({password, email, cpf});
 
-export async function loginUserController(request: Request, response: Response) {
-    const { email, password, cpf } = request.body
-
-    const serviceResponse: ServiceResponse = await loginUserService({password, email, cpf})
-
-    response.status(serviceResponse.status).json(serviceResponse.response)
-}
+    response.status(200).json(serviceResponse.response);
+};

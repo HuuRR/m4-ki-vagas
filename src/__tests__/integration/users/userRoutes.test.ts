@@ -26,15 +26,14 @@ describe("Testando rotas do usuario", () => {
     const response = await request(app)
       .post("/users")
       .send(mockedUser);
-    userId = response.body.id
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
     expect(response.body).toHaveProperty("user_skills");
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
     expect(response.body).not.toHaveProperty("email");
+    expect(response.body).not.toHaveProperty("id");
     expect(response.body).not.toHaveProperty("cpf");
     expect(response.body).not.toHaveProperty("password");
     expect(response.body.name).toEqual("Usuario Criado");
@@ -71,6 +70,8 @@ describe("Testando rotas do usuario", () => {
   test("GET /users/:id - Deve ser capaz de listar um usuário pelo id ", async () => {
     const loginResponse = await request(app).post("/users/login").send(mockedUserLogin);
 
+    userId = loginResponse.body.userId
+
     const response = await request(app)
       .get(`/users/${userId}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
@@ -97,7 +98,7 @@ describe("Testando rotas do usuario", () => {
       .get("/users/d6as5d6as5-ascas61-asc6sa1c5")
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-    expect(response.status).toBe(401)
+    expect(response.status).toBe(404)
     expect(response.body).toHaveProperty("message");
   });
 
@@ -141,7 +142,7 @@ describe("Testando rotas do usuario", () => {
       })
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-      expect(response.status).toBe(401)
+      expect(response.status).toBe(404)
       expect(response.body).toHaveProperty("message");
   });
 
@@ -163,7 +164,7 @@ describe("Testando rotas do usuario", () => {
       .delete("/users/aa65a1cas-a6v5a1sv6-vas6vas1")
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message");
   });
 

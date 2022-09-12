@@ -2,8 +2,8 @@ export interface IInterviewRequest {
   hour: string;
   date: string;
   userId: string;
-  // vacancyId: string;
-}
+  vacancyId: string;
+};
 
 export interface IInterview {
   id: string;
@@ -11,4 +11,4 @@ export interface IInterview {
   date: string;
   isOver: boolean;
   feedback: string;
-}
+};

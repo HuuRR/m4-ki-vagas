@@ -5,55 +5,43 @@ import listInterviewByVacancyService from "../services/interview/listInterviewBy
 import editIterviewService from "../services/interview/editIterview.service";
 import deleteIterviewService from "../services/interview/deleteIterview.service";
 
-export const createInterviewController = async (
-  req: Request,
-  res: Response
-) => {
-  const { hour, date, userId } = req.body;
 
-  const newIterview = await createIterviewService({ hour, date, userId });
+export const createInterviewController = async (request: Request, response: Response) => {
+  const { hour, date, userId, vacancyId } = request.body;
 
-  return res.status(201).json(newIterview);
+  const newIterview = await createIterviewService({ hour, date, userId, vacancyId });
+
+  return response.status(201).json(newIterview);
 };
 
-export const listInterviewByUserController = async (
-  req: Request,
-  res: Response
-) => {
-  const { id } = req.params;
+export const listInterviewByUserController = async (request: Request, response: Response) => {
+  const { id } = request.params;
 
   const listInterviews = await listInterviewByUserService(id);
-  return res.status(200).json(listInterviews);
+  return response.status(200).json(listInterviews);
 };
 
-export const listIterviewByVacancyController = async (
-  req: Request,
-  res: Response
-) => {
-  const { id } = req.params;
+export const listIterviewByVacancyController = async (request: Request, response: Response) => {
+  const { id } = request.params;
 
-  const listInterviews = listInterviewByVacancyService(id);
-  return res.status(200).json(listInterviews);
+  const listInterviews = await listInterviewByVacancyService(id);
+  return response.status(200).json(listInterviews);
 };
 
-export const editIterviewController = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { hour, date, isOver, feedback } = req.body;
+export const editIterviewController = async (request: Request, response: Response) => {
+  const { id } = request.params;
 
-  const interview = await editIterviewService({
-    id,
-    hour,
-    date,
-    isOver,
-    feedback,
-  });
-  return res.status(201).json(interview);
+  const { hour, date, isOver, feedback } = request.body;
+
+  const interview = await editIterviewService({ id, hour, date, isOver, feedback });
+
+  return response.status(200).json(interview);
 };
 
-export const deleteIterviewController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const deleteIterviewController = async (request: Request, response: Response) => {
+  const { id } = request.params;
 
-  const interview = await deleteIterviewService(id);
+  const message = await deleteIterviewService(id);
 
-  return res.status(204).json({ message: "Interview deleted with success" });
+  return response.status(200).json({ message });
 };

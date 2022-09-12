@@ -1,3 +1,4 @@
+
 import { Column, Entity, PrimaryGeneratedColumn  } from "typeorm";
 
 @Entity("vacancies_skills")

@@ -1,21 +1,21 @@
-import { Router } from 'express'
+import { Router } from 'express';
 import { loginUserController, 
         createUserController, 
         deleteUserController, 
         listUserByIdController, 
         listUsersController, 
-        updateUserController } from '../controllers/users.controllers'
+        updateUserController } from '../controllers/users.controllers';
+import verifyPersonAuthToken from '../middlewares/verifyPersonAuthToken.middleware';
+import verifyOwnerAuth from '../middlewares/verifyOwnerAuth.middleware';
 
-import verifyPersonAuthToken from '../middlewares/verifyPersonAuthToken.middleware'
-import verifyOwnerAuth from '../middlewares/verifyOwnerAuth.middleware'
 
-const routes = Router()
+const userRoutes = Router();
 
-routes.post("", createUserController)
-routes.get("", listUsersController)
-routes.get("/:id", verifyPersonAuthToken, verifyOwnerAuth, listUserByIdController)
-routes.delete("/:id", verifyPersonAuthToken, verifyOwnerAuth, deleteUserController)
-routes.patch("/:id", verifyPersonAuthToken, verifyOwnerAuth, updateUserController)
-routes.post("/login", loginUserController)
+userRoutes.post("", createUserController);
+userRoutes.get("", listUsersController);
+userRoutes.get("/:id", verifyPersonAuthToken, verifyOwnerAuth, listUserByIdController);
+userRoutes.delete("/:id", verifyPersonAuthToken, verifyOwnerAuth, deleteUserController);
+userRoutes.patch("/:id", verifyPersonAuthToken, verifyOwnerAuth, updateUserController);
+userRoutes.post("/login", loginUserController);
 
-export default routes
+export default userRoutes;

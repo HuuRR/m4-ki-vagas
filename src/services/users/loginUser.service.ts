@@ -2,12 +2,11 @@ import AppDataSource from "../../data-source"
 import User from "../../entities/users.entity"
 import jwt from "jsonwebtoken"
 import * as bcrypt from "bcrypt"
-import { ServiceResponse } from "../../interfaces"
 import { ILoginUser } from "../../interfaces/users"
 import { AppError } from "../../errors/AppError"
 
 
-export default async function loginUserService({password, email, cpf}: ILoginUser): Promise<ServiceResponse> {
+const loginUserService = async ({password, email, cpf}: ILoginUser) => {
 
     const userRepository = AppDataSource.getRepository(User)
     
@@ -28,3 +27,5 @@ export default async function loginUserService({password, email, cpf}: ILoginUse
         response: {token, userId: user.id}
     }
 }
+
+export default loginUserService;

@@ -12,11 +12,11 @@ const deleteIterviewService = async (id: string) => {
   });
 
   if (!interview) {
-    throw new AppError("Interview not found", 404);
+    throw new AppError("Interview not found.", 404);
   }
 
   await interviewRepository.delete(interview!);
 
-  return "Interview deleted with success";
+  return "Interview deleted with success.";
 };
 export default deleteIterviewService;

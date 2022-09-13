@@ -39,7 +39,7 @@ const deleteCompanyControllers = async (request: Request, response: Response) =>
 
   await deleteCompanyService(id);
 
-  response.status(200).json({ message: "Empresa deletada com sucesso" });
+  response.status(200).json({ message: "Company deleted with success." });
 };
 
 const loginCompanyControllers = async (request:Request, response:Response)  => {

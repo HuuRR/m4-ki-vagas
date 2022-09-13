@@ -8,15 +8,15 @@ const createCompanyService = async ({name, CNPJ, cidade_estado, qtde_funcionario
 
     const companyRepository = AppDataSource.getRepository(Company);
 
-    if(!CNPJ) throw new AppError("CNPJ não informado");
+    if(!CNPJ) throw new AppError("CNPJ not found.");
 
-    if (CNPJ.length > 14) throw new AppError("CNPJ invalido");
+    if (CNPJ.length > 14) throw new AppError("Invalid CNPJ.");
 
-    if(!password) throw new AppError("Senha não informada");
+    if(!password) throw new AppError("'Password' field must be filled.");
 
     const company = await companyRepository.findOne({where: {CNPJ}});
 
-    if (company) throw new AppError("Company already exists");
+    if (company) throw new AppError("Company already exists.");
 
     const hashedPassword = await hash(password, 10);
 

@@ -6,10 +6,12 @@ import { mockedCompany, mockedCompanyLogin, mockedUser, mockedUserLogin, mockedV
 
 describe("Testando rotas de vacancies", () => {
   let connection: DataSource;
-  let userToken: string
-  let companyToken: string
-  let companyId: string
-  let vacancyId: string
+  let userToken: string;
+  let userId: string;
+  let companyToken: string;
+  let companyId: string;
+  let vacancyId: string;
+  let applicationId: string
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -31,9 +33,12 @@ describe("Testando rotas de vacancies", () => {
       .post("/users")
       .send(mockedUser);
 
-    userToken = (await request(app)
+    let userLoginResponse = await request(app)
       .post("/users/login")
-      .send(mockedUserLogin)).body.token
+      .send(mockedUserLogin)
+
+    userToken = userLoginResponse.body.token
+    userId = userLoginResponse.body.userId
 
     let createCompanyResponse = await request(app)
       .post("/company")
@@ -89,7 +94,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveLength(1)
   })
 
-  test("GET /vacancies/:id - Deve ser capaz de listar uma vaga especifica", async () => {
+  test("GET /vacancies/:vacancyId - Deve ser capaz de listar uma vaga especifica", async () => {
     let response = await request(app)
       .get(`/vacancies/${vacancyId}`)
 
@@ -101,7 +106,125 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).not.toHaveProperty("companyId")
   })
 
-  test("PATCH /vacancies/:id - Deve ser capaz de editar propriedade de uma vaga", async () => {
+  test("POST /vacancies/application/:vacancyId - Deve criar uma Aplicação na vaga", async () => {
+    let validDate = new Date()
+    validDate.setDate(validDate.getDate() + 7)
+
+    let response = await request(app)
+      .post(`/vacancies/application/${vacancyId}`)
+      .send({
+        userId,
+        valid: validDate
+      })
+      .set("Authorization", `Bearer ${userToken}`);
+
+    applicationId = response.body.id
+
+    expect(response.status).toBe(201)
+    expect(response.body).toHaveProperty("id")
+    expect(response.body).toHaveProperty("createdAt")
+    expect(response.body).toHaveProperty("updatedAt")
+    expect(response.body).toHaveProperty("isActive")
+    expect(response.body.isActive).toEqual(null)
+  })
+
+  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga sem token", async () => {
+    let validDate = new Date()
+    validDate.setDate(validDate.getDate() + 7)
+
+    let response = await request(app)
+      .post(`/vacancies/application/${vacancyId}`)
+      .send({
+        userId,
+        valid: validDate
+      });
+
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga sem token de usuário", async () => {
+    let validDate = new Date()
+    validDate.setDate(validDate.getDate() + 7)
+
+    let response = await request(app)
+      .post(`/vacancies/application/${vacancyId}`)
+      .send({
+        userId,
+        valid: validDate
+      })
+      .set("Authorization", `Bearer ${companyToken}`);
+
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga com id incorreto", async () => {
+    let validDate = new Date()
+    validDate.setDate(validDate.getDate() + 7)
+
+    let response = await request(app)
+      .post(`/vacancies/application/5v4wa-vqwv1q-vaqgre81`)
+      .send({
+        userId,
+        valid: validDate
+      })
+      .set("Authorization", `Bearer ${userToken}`);
+      
+
+    expect(response.status).toBe(404)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("PATCH /vacancies/application/:applicationId - Deve aceitar a aplicação do usuário", async () => {
+    let response = await request(app)
+      .patch(`/vacancies/application/${applicationId}`)
+      .send({
+        isActive: true
+      })
+      .set("Authorization", `Bearer ${companyToken}`);
+    
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("isActive")    
+    expect(response.body.isActive).toEqual(true)
+  })
+
+  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário sem token", async () => {
+    let response = await request(app)
+      .patch(`/vacancies/application/${applicationId}`)
+      .send({
+        isActive: true
+      });
+    
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário sem token de empresa", async () => {
+    let response = await request(app)
+      .patch(`/vacancies/application/${applicationId}`)
+      .send({
+        isActive: true
+      })
+      .set("Authorization", `Bearer ${userToken}`);
+    
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário com id incorreto", async () => {
+    let response = await request(app)
+      .patch(`/vacancies/application/avw5wvq-vqw8v1-ava84`)
+      .send({
+        isActive: true
+      })
+      .set("Authorization", `Bearer ${userToken}`);
+    
+    expect(response.status).toBe(404)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("PATCH /vacancies/:vacancyId - Deve ser capaz de editar propriedade de uma vaga", async () => {
     const response = await request(app)
       .patch(`/vacancies/${vacancyId}`)
       .send({
@@ -117,7 +240,7 @@ describe("Testando rotas de vacancies", () => {
       expect(response.body.name).toEqual("Vaga editada")
   })
 
-  test("PATCH /vacancies/:id - Não deve ser capaz de editar propriedade de uma vaga sem token", async () => {
+  test("PATCH /vacancies/:vacancyId - Não deve ser capaz de editar propriedade de uma vaga sem token", async () => {
     const response = await request(app)
     .patch(`/vacancies/${vacancyId}`)
     .send({
@@ -128,7 +251,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("PATCH /vacancies/:id - Não deve ser capaz de editar propriedade de uma vaga sem token de empresa", async () => {
+  test("PATCH /vacancies/:vacancyId - Não deve ser capaz de editar propriedade de uma vaga sem token de empresa", async () => {
     const response = await request(app)
       .patch(`/vacancies/${vacancyId}`)
       .send({
@@ -140,7 +263,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
   
-  test("PATCH /vacancies/:id - Não deve ser capaz de editar propriedade de uma vaga com id incorreto", async () => {
+  test("PATCH /vacancies/:vacancyId - Não deve ser capaz de editar propriedade de uma vaga com id incorreto", async () => {
     const response = await request(app)
       .patch(`/vacancies/asca41wq-vqwv1qv-vwqv1q54-wvqv45qw`)
       .send({
@@ -152,7 +275,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("DELETE /vacancies/:id - Não deve ser capaz de deletar uma vaga sem token", async () => {
+  test("DELETE /vacancies/:vacancyId - Não deve ser capaz de deletar uma vaga sem token", async () => {
     const response = await request(app)
       .delete(`/vacancies/${vacancyId}`);
 
@@ -160,7 +283,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message");
   })
 
-  test("DELETE /vacancies/:id - Não deve ser capaz de deletar uma vaga sem token de empresa", async () => {
+  test("DELETE /vacancies/:vacancyId - Não deve ser capaz de deletar uma vaga sem token de empresa", async () => {
     const response = await request(app)
       .delete(`/vacancies/${vacancyId}`)
       .set("Authorization", `Bearer ${userToken}`);
@@ -169,7 +292,7 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message");
   })
 
-  test("DELETE /vacancies/:id - Deve ser capaz de deletar uma vaga", async () => {
+  test("DELETE /vacancies/:vacancyId - Deve ser capaz de deletar uma vaga", async () => {
     const response = await request(app)
       .delete(`/vacancies/${vacancyId}`)
       .set("Authorization", `Bearer ${companyToken}`);

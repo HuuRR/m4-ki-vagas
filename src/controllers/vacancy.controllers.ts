@@ -6,49 +6,103 @@ import deleteVacancyService from "../services/vacancies/deleteVacancy.service";
 import listVacanciesService from "../services/vacancies/listVacancies.service";
 import listVacancyByIdService from "../services/vacancies/listVacancyById.service";
 import updateVacancyservice from "../services/vacancies/updateVacancy.service";
+import updateApplicationAvailabilityService from "../services/vacancies/updateApplicationAvailability.service";
 
+const createVacancyController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { name, salary, description, companyId, vacancy_skills } = request.body;
 
-const createVacancyController = async (request: Request, response: Response): Promise<void> => {
-    const { name, salary, description, companyId, vacancy_skills } = request.body;
+  const vancancy: IVacancy = await createVacancyService({
+    name,
+    salary,
+    description,
+    companyId,
+    vacancy_skills,
+  });
 
-    const vancancy: IVacancy = await createVacancyService({ name, salary, description, companyId, vacancy_skills });
-
-    response.status(201).json(vancancy);
+  response.status(201).json(vancancy);
 };
 
-const listVacanciesController = async (_request: Request, response: Response): Promise<void> => {
-    const listVacancies = await listVacanciesService();
-  
-    response.status(200).json(listVacancies);
+const listVacanciesController = async (
+  _request: Request,
+  response: Response
+): Promise<void> => {
+  const listVacancies = await listVacanciesService();
+
+  response.status(200).json(listVacancies);
 };
 
-const listVacancyByIdController = async (request: Request, response: Response): Promise<void> => {
-    const { id } = request.params;
-  
-    const vacancy: Vacancies = await listVacancyByIdService(id);
-  
-    response.status(200).json(vacancy);
+const listVacancyByIdController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { id } = request.params;
+
+  const vacancy: Vacancies = await listVacancyByIdService(id);
+
+  response.status(200).json(vacancy);
 };
 
-const updateVacancyController = async (request: Request, response: Response): Promise<void> => {
-    const { id } = request.params
-    const { name, salary, description, vacancy_skills } = request.body;
-  
-    const vacancy: Vacancies = await updateVacancyservice(id, { name, salary, description, vacancy_skills });
-  
-    response.status(200).json(vacancy);
-};
-  
-const deleteVacancyController = async (request: Request, response: Response): Promise<void> => {
-    const { id } = request.params;
-  
-    const message: string = await deleteVacancyService( id );
-  
-    response.status(200).json({message});
+const updateVacancyController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { id } = request.params;
+  const { name, salary, description, vacancy_skills } = request.body;
+
+  const vacancy: Vacancies = await updateVacancyservice(id, {
+    name,
+    salary,
+    description,
+    vacancy_skills,
+  });
+
+  response.status(200).json(vacancy);
 };
 
-export { createVacancyController, 
-    listVacanciesController, 
-    listVacancyByIdController, 
-    updateVacancyController, 
-    deleteVacancyController };
+const deleteVacancyController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { id } = request.params;
+
+  const message: string = await deleteVacancyService(id);
+
+  response.status(200).json({ message });
+};
+
+const updateApplicationAvailabilityController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { id } = request.params;
+  const { isActive, valid } = request.body;
+
+  const updatedApplication = await updateApplicationAvailabilityService(
+    id,
+    isActive,
+    valid
+  );
+
+  response.status(200).json(updatedApplication);
+};
+const listApplicationByVacanciesController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  const { id } = request.params;
+
+  const listApplication = await listApplicationByVacanciesController(id);
+  response.status(200).json(listApplication);
+};
+
+export {
+  createVacancyController,
+  listVacanciesController,
+  listVacancyByIdController,
+  updateVacancyController,
+  deleteVacancyController,
+  updateApplicationAvailabilityController,
+};

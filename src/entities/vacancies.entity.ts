@@ -1,4 +1,5 @@
-import { Column,
+import {
+  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -6,10 +7,10 @@ import { Column,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Applications } from "./applications.entity";
 import { Company } from "./companies.entity";
 import { Interviews } from "./interviews.entity";
 import { Vacancies_skills } from "./vacancies_skills.entity";
-
 
 @Entity("vacancies")
 export class Vacancies {
@@ -28,10 +29,15 @@ export class Vacancies {
   @ManyToOne(() => Company, { eager: true })
   company: Company;
 
-  @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id, {eager: true})
+  @OneToOne(() => Vacancies_skills, (vacancy_skills) => vacancy_skills.id, {
+    eager: true,
+  })
   @JoinColumn()
   vacancy_skills: Vacancies_skills;
 
   @OneToMany(() => Interviews, (interview) => interview.id)
   interview: Interviews[];
+
+  @OneToMany(() => Applications, (application) => application.id)
+  application: Applications[];
 }

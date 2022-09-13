@@ -1,4 +1,5 @@
-import { Entity,
+import {
+  Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
@@ -6,10 +7,12 @@ import { Entity,
   OneToMany,
   JoinColumn,
   OneToOne,
+  ManyToMany,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { Interviews } from "./interviews.entity";
 import { User_skills } from "./user_skills.entity";
+import { Applications } from "./applications.entity";
 
 @Entity("users")
 export default class User {
@@ -30,7 +33,7 @@ export default class User {
 
   @Column({ nullable: false, unique: true })
   @Exclude()
-  CPF: string
+  CPF: string;
 
   @Column({ nullable: false, default: true })
   @Exclude()
@@ -45,7 +48,10 @@ export default class User {
   @OneToMany(() => Interviews, (interviews) => interviews.user, { eager: true })
   interviews: Interviews[];
 
+  @OneToMany(() => Applications, (application) => application.user)
+  application: Applications;
+
   @OneToOne(() => User_skills, (user_skills) => user_skills.id, { eager: true })
   @JoinColumn()
-  user_skills: User_skills
+  user_skills: User_skills;
 }

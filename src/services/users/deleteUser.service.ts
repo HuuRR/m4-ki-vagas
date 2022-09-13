@@ -7,13 +7,13 @@ const deleteUserService = async (id: string) => {
 
     const user = await usersRepository.findOne({where: {id}});
 
-    if (!user) throw new AppError('Usuario não encontrado');
+    if (!user) throw new AppError('User not found.');
 
-    if (!user.isActive) throw new AppError('Usuario já foi deletado', 406);
+    if (!user.isActive) throw new AppError('User already deleted.', 406);
 
     await usersRepository.update(id, { isActive: false });
 
-    return "Usuario deletado com sucesso"
+    return "User deleted with success."
 }
 
 export default deleteUserService;

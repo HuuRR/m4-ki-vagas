@@ -10,7 +10,7 @@ const updateCompanyService = async (idCompany:string,{name, cidade_estado, qtde_
     
     const company = await companyRepository.findOne({where: { id: idCompany}});
 
-    if(!company?.isActive) throw new AppError("Empresa não encontrada", 404);
+    if(!company?.isActive) throw new AppError("Company not found.", 404);
 
     await companyRepository.update(company.id, {
         name: name || company.name,

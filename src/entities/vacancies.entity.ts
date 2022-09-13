@@ -6,6 +6,7 @@ import { Column,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Applications } from "./applications.entity";
 import { Company } from "./companies.entity";
 import { Interviews } from "./interviews.entity";
 import { Vacancies_skills } from "./vacancies_skills.entity";
@@ -34,4 +35,7 @@ export class Vacancies {
 
   @OneToMany(() => Interviews, (interview) => interview.id)
   interview: Interviews[];
+
+  @OneToMany(() => Applications, (application) => application.id)
+  application: Applications[];
 }

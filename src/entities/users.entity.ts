@@ -10,6 +10,7 @@ import { Entity,
 import { Exclude } from "class-transformer";
 import { Interviews } from "./interviews.entity";
 import { User_skills } from "./user_skills.entity";
+import { Applications } from "./applications.entity";
 
 @Entity("users")
 export default class User {
@@ -48,4 +49,8 @@ export default class User {
   @OneToOne(() => User_skills, (user_skills) => user_skills.id, { eager: true })
   @JoinColumn()
   user_skills: User_skills
+
+  @OneToMany(() => Applications, (application) => application.user)
+  application: Applications;
+
 }

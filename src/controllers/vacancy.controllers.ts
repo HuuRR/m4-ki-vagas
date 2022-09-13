@@ -6,7 +6,6 @@ import deleteVacancyService from "../services/vacancies/deleteVacancy.service";
 import listVacanciesService from "../services/vacancies/listVacancies.service";
 import listVacancyByIdService from "../services/vacancies/listVacancyById.service";
 import updateVacancyservice from "../services/vacancies/updateVacancy.service";
-import updateApplicationAvailabilityService from "../services/vacancies/updateApplicationAvailability.service";
 
 const createVacancyController = async (
   request: Request,
@@ -73,36 +72,10 @@ const deleteVacancyController = async (
   response.status(200).json({ message });
 };
 
-const updateApplicationAvailabilityController = async (
-  request: Request,
-  response: Response
-): Promise<void> => {
-  const { id } = request.params;
-  const { isActive, valid } = request.body;
-
-  const updatedApplication = await updateApplicationAvailabilityService(
-    id,
-    isActive,
-    valid
-  );
-
-  response.status(200).json(updatedApplication);
-};
-const listApplicationByVacanciesController = async (
-  request: Request,
-  response: Response
-): Promise<void> => {
-  const { id } = request.params;
-
-  const listApplication = await listApplicationByVacanciesController(id);
-  response.status(200).json(listApplication);
-};
-
 export {
   createVacancyController,
   listVacanciesController,
   listVacancyByIdController,
   updateVacancyController,
   deleteVacancyController,
-  updateApplicationAvailabilityController,
 };

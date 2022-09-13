@@ -12,7 +12,7 @@ const deleteVacancyService = async ( id: string ): Promise<string> => {
 
   await vacanciesRepository.delete(vacancy);
 
-  return "Vacancy deleted with success";
+  return "Vacancy deleted with success.";
 };
 
 export default deleteVacancyService;

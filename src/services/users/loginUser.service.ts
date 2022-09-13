@@ -12,13 +12,13 @@ const loginUserService = async ({password, email, cpf}: ILoginUser) => {
     
     const user = cpf ? await userRepository.findOne({where: {CPF: cpf}}) : await userRepository.findOne({where: {email}})
         
-    if (!user) throw new AppError('Senha ou email invalidos')
+    if (!user) throw new AppError('Invalid Email/Password')
 
-    if (!user.isActive) throw new AppError('Usuário está inativo')
+    if (!user.isActive) throw new AppError('This user is inactive.')
 
     const passwordMatch = bcrypt.compareSync(password, user.password)
 
-    if (!passwordMatch) throw new AppError('Senha ou email invalidos')
+    if (!passwordMatch) throw new AppError('Invalid Email/Password')
 
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.SECRET_KEY_PERSON as string, {expiresIn: '24h'})
 

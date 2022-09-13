@@ -4,28 +4,34 @@ import { User_skills } from "../../entities/user_skills.entity";
 import { AppError } from "../../errors/AppError";
 import { IUpdateUser } from "../../interfaces/users";
 
-const updateUserService = async ({name, cpf, email, id, password, skills}: IUpdateUser) => {
+const updateUserService = async ({
+  name,
+  cpf,
+  email,
+  id,
+  password,
+  skills,
+}: IUpdateUser) => {
+  const usersRepository = AppDataSource.getRepository(User);
 
-    const usersRepository = AppDataSource.getRepository(User);
+  const user = await usersRepository.findOne({ where: { id } });
 
-    const user = await usersRepository.findOne({where: {id}});
+  if (!user) throw new AppError("User not found.");
 
-    if (!user) throw new AppError('Usuario não encontrado');
+  if (skills) {
+    const userSkillsRepository = AppDataSource.getRepository(User_skills);
 
-    if (skills) {
-        const userSkillsRepository = AppDataSource.getRepository(User_skills);
+    await userSkillsRepository.update(user.user_skills.id, { ...skills });
+  }
 
-        await userSkillsRepository.update(user.user_skills.id, { ...skills });
-    };
-    
-    await usersRepository.update(id, {
-        name: name || user.name,
-        CPF: cpf || user.CPF,
-        email: email || user.email,
-        password: password || user.password
-    });
+  await usersRepository.update(id, {
+    name: name || user.name,
+    CPF: cpf || user.CPF,
+    email: email || user.email,
+    password: password || user.password,
+  });
 
-    return await usersRepository.findOne({where: {id}});
-}
+  return await usersRepository.findOne({ where: { id } });
+};
 
 export default updateUserService;

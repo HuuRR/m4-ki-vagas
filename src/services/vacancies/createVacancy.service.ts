@@ -23,7 +23,7 @@ const createVacancyService = async ({ name, salary, description, companyId, vaca
     }
   });
 
-  if (vacancyAlreadyExists) throw new AppError("Vacancy already exists.", 400);
+  if (vacancyAlreadyExists) throw new AppError("Vacancy already registered.", 400);
 
   const vacancySkillsRepository = AppDataSource.getRepository(Vacancies_skills);
 
@@ -35,7 +35,7 @@ const createVacancyService = async ({ name, salary, description, companyId, vaca
   
   const company = await companyRepository.findOne({where: {id: companyId}});
 
-  if (!company) throw new AppError('Company not find', 404);
+  if (!company) throw new AppError('Company not found.', 404);
   
   const vacancy = vacanciesRepository.create({
     name,

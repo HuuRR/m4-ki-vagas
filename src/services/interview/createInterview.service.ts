@@ -16,22 +16,22 @@ const createIterviewService = async ({ hour, date, userId, vacancyId}: IIntervie
 
   const user = await usersRepository.findOne({ where: { id: userId}});
 
-  if (!user) throw new AppError("User not found", 404);
+  if (!user) throw new AppError("User not found.", 404);
 
   const vacancy = await vacancyRepository.findOne({where: { id: vacancyId}});
 
-  if (!vacancy) throw new AppError("Vacancy not found", 404);
+  if (!vacancy) throw new AppError("Vacancy not found.", 404);
 
   let dateFormat = new Date(date);
 
   let days = dateFormat.getDay();
 
   if (days === 0 || days === 6) {
-    throw new AppError("Invalid Date");
+    throw new AppError("Invalid Date.");
   };
 
   if (parseInt(hour) > 18 || parseInt(hour) < 8) {
-    throw new AppError("Invalid hour");
+    throw new AppError("Invalid hour.");
   };
 
   const newInterview = interviewRepository.create({

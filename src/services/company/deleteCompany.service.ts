@@ -8,7 +8,7 @@ const deleteCompanyService = async (idCompany: string) => {
 
   const company = await companyRepository.findOne({where: {id: idCompany}});
 
-  if (!company?.isActive) throw new AppError("Empresa não encontrada", 404)
+  if (!company?.isActive) throw new AppError("Company not found.", 404)
 
   await companyRepository.update(company.id, { isActive: false });
 

@@ -11,13 +11,13 @@ const loginCompanyService = async ({ email, password }:ICompanyLogin): Promise<s
 
     const company = await companyRepository.findOne({ where: { email }});
     
-    if(!company?.isActive) throw new AppError('Empresa não encontrada', 400);
+    if(!company?.isActive) throw new AppError('Company not found.', 400);
 
-    if(!company) throw new AppError('Email ou senha inválido', 403);
+    if(!company) throw new AppError('Invalid Email/Password.', 403);
     
     const matchPassword = await compare (password, company.password);
     
-    if(!matchPassword) throw new AppError('Email ou senha inválido',403);
+    if(!matchPassword) throw new AppError('Invalid Email/Password.',403);
 
     const token = jwt.sign({ }, process.env.SECRET_KEY_COMPANY as string, 
       {

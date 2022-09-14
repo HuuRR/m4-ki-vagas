@@ -83,6 +83,14 @@ const deleteCompanyControllers = async (
 ) => {
   const { id } = request.params;
 
+  const companyRepository = AppDataSource.getRepository(Company);
+
+  const thisCompany = await companyRepository.findOne({ where: { id: id } });
+
+  if (!thisCompany) {
+    throw new AppError("Data not found.", 404);
+  }
+
   await deleteCompanyService(id);
 
   response.status(200).json({ message: "Company deleted with success." });

@@ -9,6 +9,10 @@ import { AppError } from "../../errors/AppError"
 const loginUserService = async ({password, email, cpf}: ILoginUser) => {
 
     const userRepository = AppDataSource.getRepository(User)
+
+    if(!password || !email || !cpf) {
+        throw new AppError("All fields must be filled. (password, email and cpf).", 400)
+    }
     
     const user = cpf ? await userRepository.findOne({where: {CPF: cpf}}) : await userRepository.findOne({where: {email}})
         

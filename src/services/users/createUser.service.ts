@@ -19,11 +19,11 @@ const createUserService = async ({cpf, email, name, password, skills}: ICreateUs
 
     const user = await usersRepository.findOne({where: {CPF: cpf}});
 
-    if (user) throw new AppError('User already registered.');
+    if (user) throw new AppError('User already registered.', 400);
 
     const userEmail = await usersRepository.findOne({where: {email: email}});
 
-    if (userEmail) throw new AppError('User already registered.');
+    if (userEmail) throw new AppError('User already registered.', 400);
 
     const userSkillsRepository = AppDataSource.getRepository(User_skills);
 

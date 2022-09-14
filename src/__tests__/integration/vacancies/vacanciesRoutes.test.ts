@@ -211,7 +211,7 @@ describe("Testando rotas de vacancies", () => {
       .send({
         isActive: true
       })
-      .set("Authorization", `Bearer ${userToken}`);
+      .set("Authorization", `Bearer ${companyToken}`);
     
     expect(response.status).toBe(404)
     expect(response.body).toHaveProperty("message")

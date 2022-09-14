@@ -106,16 +106,9 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).not.toHaveProperty("companyId")
   })
 
-  test("POST /vacancies/application/:vacancyId - Deve criar uma Aplicação na vaga", async () => {
-    let validDate = new Date()
-    validDate.setDate(validDate.getDate() + 7)
-
+  test("POST /application/:vacancyId - Deve criar uma Aplicação na vaga", async () => {
     let response = await request(app)
-      .post(`/vacancies/application/${vacancyId}`)
-      .send({
-        userId,
-        valid: validDate
-      })
+      .post(`/application/${vacancyId}`)
       .set("Authorization", `Bearer ${userToken}`);
 
     applicationId = response.body.id
@@ -128,12 +121,12 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body.isActive).toEqual(null)
   })
 
-  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga sem token", async () => {
+  test("POST /application/:vacancyId - Não deve criar uma Aplicação na vaga sem token", async () => {
     let validDate = new Date()
     validDate.setDate(validDate.getDate() + 7)
 
     let response = await request(app)
-      .post(`/vacancies/application/${vacancyId}`)
+      .post(`/application/${vacancyId}`)
       .send({
         userId,
         valid: validDate
@@ -143,12 +136,12 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga sem token de usuário", async () => {
+  test("POST /application/:vacancyId - Não deve criar uma Aplicação na vaga sem token de usuário", async () => {
     let validDate = new Date()
     validDate.setDate(validDate.getDate() + 7)
 
     let response = await request(app)
-      .post(`/vacancies/application/${vacancyId}`)
+      .post(`/application/${vacancyId}`)
       .send({
         userId,
         valid: validDate
@@ -159,12 +152,12 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("POST /vacancies/application/:vacancyId - Não deve criar uma Aplicação na vaga com id incorreto", async () => {
+  test("POST /application/:vacancyId - Não deve criar uma Aplicação na vaga com id incorreto", async () => {
     let validDate = new Date()
     validDate.setDate(validDate.getDate() + 7)
 
     let response = await request(app)
-      .post(`/vacancies/application/5v4wa-vqwv1q-vaqgre81`)
+      .post(`/application/5v4wa-vqwv1q-vaqgre81`)
       .send({
         userId,
         valid: validDate
@@ -176,9 +169,9 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("PATCH /vacancies/application/:applicationId - Deve aceitar a aplicação do usuário", async () => {
+  test("PATCH /application/:applicationId - Deve aceitar a aplicação do usuário", async () => {
     let response = await request(app)
-      .patch(`/vacancies/application/${applicationId}`)
+      .patch(`/application/${applicationId}`)
       .send({
         isActive: true
       })
@@ -189,9 +182,9 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body.isActive).toEqual(true)
   })
 
-  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário sem token", async () => {
+  test("PATCH /application/:applicationId - Não deve aceitar a aplicação do usuário sem token", async () => {
     let response = await request(app)
-      .patch(`/vacancies/application/${applicationId}`)
+      .patch(`/application/${applicationId}`)
       .send({
         isActive: true
       });
@@ -200,9 +193,9 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário sem token de empresa", async () => {
+  test("PATCH /application/:applicationId - Não deve aceitar a aplicação do usuário sem token de empresa", async () => {
     let response = await request(app)
-      .patch(`/vacancies/application/${applicationId}`)
+      .patch(`/application/${applicationId}`)
       .send({
         isActive: true
       })
@@ -212,9 +205,9 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
-  test("PATCH /vacancies/application/:applicationId - Não deve aceitar a aplicação do usuário com id incorreto", async () => {
+  test("PATCH /application/:applicationId - Não deve aceitar a aplicação do usuário com id incorreto", async () => {
     let response = await request(app)
-      .patch(`/vacancies/application/avw5wvq-vqw8v1-ava84`)
+      .patch(`/application/avw5wvq-vqw8v1-ava84`)
       .send({
         isActive: true
       })

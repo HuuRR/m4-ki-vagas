@@ -6,20 +6,12 @@ import { Vacancies } from "../../entities/vacancies.entity";
 import { AppError } from "../../errors/AppError";
 import { IApplicationRequest } from "../../interfaces/application";
 
-const createApplicationService = async ({
-  userId,
-  vacancyId,
-}: IApplicationRequest) => {
-  console.log(userId, vacancyId);
+const createApplicationService = async ({ userId, vacancyId }: IApplicationRequest) => {
   const applicationRepository = AppDataSource.getRepository(Applications);
 
   const userRepository = AppDataSource.getRepository(User);
 
-  const user = await userRepository.findOne({
-    where: {
-      id: userId,
-    },
-  });
+  const user = await userRepository.findOne({ where: { id: userId}});
 
   if (!user) throw new AppError("User not found", 404);
 
@@ -31,7 +23,7 @@ const createApplicationService = async ({
 
   const newApplication = applicationRepository.create({
     user,
-    vacancy,
+    vacancy
   });
 
   await applicationRepository.save(newApplication);

@@ -9,9 +9,7 @@ const createApplicationControllers = async (
 ) => {
   const { vacancyId } = request.params;
 
-  const {
-    decoded: { id: userId },
-  } = JSON.parse(request.headers.authorization!);
+  const { decoded: { id: userId }} = JSON.parse(request.headers.authorization!);
 
   const newAplication = await createApplicationService({ userId, vacancyId });
 

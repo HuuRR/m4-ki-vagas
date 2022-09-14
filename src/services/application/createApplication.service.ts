@@ -6,12 +6,19 @@ import { Vacancies } from "../../entities/vacancies.entity";
 import { AppError } from "../../errors/AppError";
 import { IApplicationRequest } from "../../interfaces/application";
 
-const createApplicationService = async ({ userId, vacancyId }: IApplicationRequest) => {
+const createApplicationService = async ({
+  userId,
+  vacancyId,
+}: IApplicationRequest) => {
+  if (!userId) {
+    throw new AppError("This userId is invalid.", 400);
+  }
+
   const applicationRepository = AppDataSource.getRepository(Applications);
 
   const userRepository = AppDataSource.getRepository(User);
 
-  const user = await userRepository.findOne({ where: { id: userId}});
+  const user = await userRepository.findOne({ where: { id: userId } });
 
   if (!user) throw new AppError("User not found", 404);
 
@@ -23,7 +30,7 @@ const createApplicationService = async ({ userId, vacancyId }: IApplicationReque
 
   const newApplication = applicationRepository.create({
     user,
-    vacancy
+    vacancy,
   });
 
   await applicationRepository.save(newApplication);

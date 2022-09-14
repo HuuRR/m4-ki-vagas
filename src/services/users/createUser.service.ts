@@ -9,13 +9,21 @@ import * as bcrypt from "bcrypt"
 
 const createUserService = async ({cpf, email, name, password, skills}: ICreateUser) => {
 
+    if(!cpf || !email || !name || !password){
+        throw new AppError("All fields must be filled. (CPF, Email, Name and Password.)", 400)
+    }
+
     if (cpf.toString().length > 11) throw new AppError('Invalid CPF.');
 
     const usersRepository = AppDataSource.getRepository(User);
 
     const user = await usersRepository.findOne({where: {CPF: cpf}});
 
-    if (user) throw new AppError('User already registered.');
+    if (user) throw new AppError('User already registered.', 400);
+
+    const userEmail = await usersRepository.findOne({where: {email: email}});
+
+    if (userEmail) throw new AppError('User already registered.', 400);
 
     const userSkillsRepository = AppDataSource.getRepository(User_skills);
 

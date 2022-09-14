@@ -8,6 +8,18 @@ const updateVacancyservice = async (
   id: string,
   { name, salary, description, vacancy_skills }: IVacancy
 ): Promise<Vacancies> => {
+  if (!name) {
+    throw new AppError("This name is invalid.", 400);
+  }
+
+  if (!salary) {
+    throw new AppError("This salary is invalid.", 400);
+  }
+
+  if (!description) {
+    throw new AppError("This description is invalid.", 400);
+  }
+
   const vacanciesRepository = AppDataSource.getRepository(Vacancies);
 
   const vacancy = await vacanciesRepository.findOne({ where: { id } });

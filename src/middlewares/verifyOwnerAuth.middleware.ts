@@ -7,7 +7,7 @@ const verifyOwnerAuth = (request: Request, _response: Response, next: NextFuncti
 
     const { decoded: { id: tokenId } } = JSON.parse(request.headers.authorization!);
 
-    if (id !== tokenId) throw new AppError('Date not found.', 404);
+    if (id !== tokenId) throw new AppError('Data not found.', 404);
 
     next();
 };

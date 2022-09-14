@@ -7,6 +7,14 @@ const updateApplicationAvailabilityService = async (
   id: string,
   { isActive, valid }: IApplicationUpdate
 ) => {
+  if (isActive === undefined) {
+    throw new AppError("This isActive is invalid.", 400);
+  }
+
+  if (!valid) {
+    throw new AppError("This valid is invalid. (must be like yyyy/mm/dd).", 400);
+  }
+
   const applicationRepository = AppDataSource.getRepository(Applications);
 
   const application = await applicationRepository.findOne({ where: { id } });

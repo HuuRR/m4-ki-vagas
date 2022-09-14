@@ -1,12 +1,10 @@
-import { JwtPayload } from "jsonwebtoken";
-
 export interface ICreateUser {
   name: string;
   password: string;
   email: string;
   cpf: string;
-  skills: {};
-}
+  skills: IUserSkills;
+};
 
 export interface IUpdateUser {
   name: string;
@@ -14,27 +12,21 @@ export interface IUpdateUser {
   email: string;
   cpf: string;
   id: string;
-  skills: {};
-}
+  skills: IUserSkills;
+};
 
 export interface ILoginUser {
-  password: string,
-  email: string,
-  cpf: string
-}
+  password: string;
+  email: string;
+  cpf: string;
+};
 
 export interface IUserSkills {
-  excel: boolean
-  javascript: boolean
-  react: boolean
-  css: boolean
-  html: boolean
-  express: boolean
-  docker: boolean
-}
-
-export interface IDecodeUserToken extends JwtPayload {
-  email: string,
-  id: string,
-  isPerson: boolean
-}
+  excel?: boolean;
+  javascript?: boolean;
+  react?: boolean;
+  css?: boolean;
+  html?: boolean;
+  express?: boolean;
+  docker?: boolean;
+};

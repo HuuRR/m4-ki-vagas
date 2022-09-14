@@ -1,5 +1,4 @@
-import {
-  Column,
+import { Column,
   Entity,
   JoinColumn,
   ManyToOne,

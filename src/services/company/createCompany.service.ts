@@ -4,25 +4,21 @@ import { ICompanyRequest } from "../../interfaces/companies"
 import { hash } from "bcrypt"
 import { AppError } from "../../errors/AppError"
 
-const createCompanyService =  async ({name, CNPJ, cidade_estado, qtde_funcionarios, email, password}:ICompanyRequest): Promise<Company> => {
+const createCompanyService = async ({name, CNPJ, cidade_estado, qtde_funcionarios, email, password}: ICompanyRequest): Promise<Company> => {
 
-    const companyRepository = AppDataSource.getRepository(Company)
+    const companyRepository = AppDataSource.getRepository(Company);
 
-    if(!CNPJ){
-        throw new AppError("CNPJ não informado")
-    }
+    if(!CNPJ) throw new AppError("CNPJ não informado");
 
-    if (CNPJ.length > 14) throw new AppError("CNPJ invalido")
+    if (CNPJ.length > 14) throw new AppError("CNPJ invalido");
 
-    if(!password){
-        throw new AppError("Senha não informada")
-    }
+    if(!password) throw new AppError("Senha não informada");
 
-    const company = await companyRepository.findOne({where: {CNPJ}})
+    const company = await companyRepository.findOne({where: {CNPJ}});
 
-    if (company) throw new AppError("Company already exists")
+    if (company) throw new AppError("Company already exists");
 
-    const hashedPassword = await hash(password,10)
+    const hashedPassword = await hash(password, 10);
 
     const newCompany = companyRepository.create({
         name, 
@@ -30,15 +26,12 @@ const createCompanyService =  async ({name, CNPJ, cidade_estado, qtde_funcionari
         cidade_estado, 
         qtde_funcionarios, 
         email, 
-        isActive: true,
-        password: hashedPassword,
-        createdAt: new Date(),
-        updatedAt: new Date()
-    })
+        password: hashedPassword
+    });
  
-    await companyRepository.save(newCompany)
+    await companyRepository.save(newCompany);
 
-    return newCompany
-}
+    return newCompany;
+};
 
-export default createCompanyService
+export default createCompanyService;

@@ -1,5 +1,4 @@
-import {
-  Entity,
+import { Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,

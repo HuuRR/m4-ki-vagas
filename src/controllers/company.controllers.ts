@@ -54,6 +54,14 @@ const updateCompanyControllers = async (
 ) => {
   const { id } = request.params;
 
+  const companyRepository = AppDataSource.getRepository(Company);
+
+  const thisCompany = await companyRepository.findOne({ where: { id: id } });
+
+  if (!thisCompany) {
+    throw new AppError("Data not found.", 404);
+  }
+
   const { name, CNPJ, cidade_estado, qtde_funcionarios, email, password } =
     request.body;
 

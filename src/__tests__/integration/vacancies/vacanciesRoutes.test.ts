@@ -169,6 +169,41 @@ describe("Testando rotas de vacancies", () => {
     expect(response.body).toHaveProperty("message")
   })
 
+  test("GET /application/:applicationId - Deve listar as aplicações de uma vaga", async () => {
+    let response = await request(app)
+    .get(`/application/${vacancyId}`)
+    .set("Authorization", `Bearer ${companyToken}`);
+  
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveLength(1)
+  })
+
+  test("GET /application/:applicationId - Não deve listar as aplicações de uma vaga sem token", async () => {
+    let response = await request(app)
+    .get(`/application/${vacancyId}`);
+  
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("GET /application/:applicationId - Não deve listar as aplicações de uma vaga sem token de empresa", async () => {
+    let response = await request(app)
+    .get(`/application/${vacancyId}`)
+    .set("Authorization", `Bearer ${userToken}`);
+  
+    expect(response.status).toBe(401)
+    expect(response.body).toHaveProperty("message")
+  })
+
+  test("GET /application/:applicationId - Não deve listar as aplicações de uma vaga com id incorreto", async () => {
+    let response = await request(app)
+    .get(`/application/vas5vqw-vw5vq4-vqwv6q1`)
+    .set("Authorization", `Bearer ${companyToken}`);
+  
+    expect(response.status).toBe(404)
+    expect(response.body).toHaveProperty("message")
+  })
+
   test("PATCH /application/:applicationId - Deve aceitar a aplicação do usuário", async () => {
     let response = await request(app)
       .patch(`/application/${applicationId}`)

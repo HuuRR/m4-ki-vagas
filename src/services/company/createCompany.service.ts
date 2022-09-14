@@ -1,37 +1,51 @@
-import AppDataSource from "../../data-source"
-import { Company } from "../../entities/companies.entity"
-import { ICompanyRequest } from "../../interfaces/companies"
-import { hash } from "bcrypt"
-import { AppError } from "../../errors/AppError"
+import AppDataSource from "../../data-source";
+import { Company } from "../../entities/companies.entity";
+import { ICompanyRequest } from "../../interfaces/companies";
+import { hash } from "bcrypt";
+import { AppError } from "../../errors/AppError";
 
-const createCompanyService = async ({name, CNPJ, cidade_estado, qtde_funcionarios, email, password}: ICompanyRequest): Promise<Company> => {
+const createCompanyService = async ({
+  name,
+  CNPJ,
+  cidade_estado,
+  qtde_funcionarios,
+  email,
+  password,
+}: ICompanyRequest): Promise<Company> => {
+  const companyRepository = AppDataSource.getRepository(Company);
 
-    const companyRepository = AppDataSource.getRepository(Company);
+  if(!name || !CNPJ || !cidade_estado || !qtde_funcionarios || !email || !password) {
+    throw new AppError("All fields must be filled.  (name, CNPJ, cidade_estado, qtde_funcionarios, email and password).", 400)
+  }
 
-    if(!CNPJ) throw new AppError("CNPJ not found.");
+  if (CNPJ.length > 14) throw new AppError("Invalid CNPJ.");
 
-    if (CNPJ.length > 14) throw new AppError("Invalid CNPJ.");
+  const company = await companyRepository.findOne({ where: { CNPJ } });
 
-    if(!password) throw new AppError("'Password' field must be filled.");
+  if (company) throw new AppError("Company already exists.");
 
-    const company = await companyRepository.findOne({where: {CNPJ}});
+  const companyEmail = await companyRepository.findOne({ where: { email } });
 
-    if (company) throw new AppError("Company already exists.");
+  if (companyEmail) throw new AppError("Company already exists.");
 
-    const hashedPassword = await hash(password, 10);
+  const companyName = await companyRepository.findOne({ where: { name } });
 
-    const newCompany = companyRepository.create({
-        name, 
-        CNPJ, 
-        cidade_estado, 
-        qtde_funcionarios, 
-        email, 
-        password: hashedPassword
-    });
- 
-    await companyRepository.save(newCompany);
+  if (companyName) throw new AppError("Company already exists.");
 
-    return newCompany;
+  const hashedPassword = await hash(password, 10);
+
+  const newCompany = companyRepository.create({
+    name,
+    CNPJ,
+    cidade_estado,
+    qtde_funcionarios,
+    email,
+    password: hashedPassword,
+  });
+
+  await companyRepository.save(newCompany);
+
+  return newCompany;
 };
 
 export default createCompanyService;

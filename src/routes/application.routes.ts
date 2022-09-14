@@ -1,13 +1,29 @@
 import { Router } from "express";
-import createApplicationControllers from "../controllers/application.controllers";
-import verifyPersonAuthToken from "../middlewares/verifyPersonAuthToken.middleware";
 
+import verifyPersonAuthToken from "../middlewares/verifyPersonAuthToken.middleware";
+import {
+  createApplicationControllers,
+  listApplicationByVacanciesController,
+  updateApplicationAvailabilityController,
+} from "../controllers/application.controllers";
+import companyAuthMiddleware from "../middlewares/companyAuth.middleware";
 
 const aplicationRoutes = Router();
 
-aplicationRoutes.post("/:id", verifyPersonAuthToken,createApplicationControllers);
+aplicationRoutes.post(
+  "/:id",
+  verifyPersonAuthToken,
+  createApplicationControllers
+);
+aplicationRoutes.patch(
+  "/:id",
+  companyAuthMiddleware,
+  updateApplicationAvailabilityController
+);
+aplicationRoutes.get(
+  "/:id",
+  companyAuthMiddleware,
+  listApplicationByVacanciesController
+);
 
-export default aplicationRoutes
-
-
-
+export default aplicationRoutes;

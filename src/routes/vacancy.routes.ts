@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { createVacancyController, 
-        listVacanciesController, 
-        listVacancyByIdController, 
-        updateVacancyController, 
-        deleteVacancyController } from "../controllers/vacancy.controllers";
+import {
+  createVacancyController,
+  listVacanciesController,
+  listVacancyByIdController,
+  updateVacancyController,
+  deleteVacancyController,
+} from "../controllers/vacancy.controllers";
 import companyAuthMiddleware from "../middlewares/companyAuth.middleware";
 
 const vancancyRoutes = Router();

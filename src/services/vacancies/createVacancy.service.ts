@@ -16,7 +16,7 @@ const createVacancyService = async ({
 
   if (!name || !salary || !description) {
     throw new AppError(
-      "All fields must be filled. (name, salary, description and company.)",
+      "All fields must be filled. (name, salary, description and companyId. Salary must be higher than 0.)",
       400
     );
   }

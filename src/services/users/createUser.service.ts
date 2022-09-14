@@ -9,6 +9,10 @@ import * as bcrypt from "bcrypt"
 
 const createUserService = async ({cpf, email, name, password, skills}: ICreateUser) => {
 
+    if(!cpf || !email || !name || !password){
+        throw new AppError("All fields must be filled. (CPF, Email, Name and Password.)")
+    }
+
     if (cpf.toString().length > 11) throw new AppError('Invalid CPF.');
 
     const usersRepository = AppDataSource.getRepository(User);

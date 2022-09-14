@@ -6,6 +6,17 @@ import { ICompanyRequest } from "../../interfaces/companies";
 
 
 const updateCompanyService = async (idCompany:string,{name, cidade_estado, qtde_funcionarios, email, password}:ICompanyRequest) => {
+    if(!email){
+        throw new AppError("This email is invalid.", 400)
+    }
+
+    if(!password){
+        throw new AppError("This password is invalid.", 400)
+    }
+
+    if(!name){
+        throw new AppError("This name is invalid.", 400)
+    }
     const companyRepository = AppDataSource.getRepository(Company);
     
     const company = await companyRepository.findOne({where: { id: idCompany}});
